@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Solar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+        }
+        /* Estilos para los sliders (range inputs) */
+        input[type=range] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            cursor: pointer;
+            outline: none;
+            border-radius: 9999px; /* rounded-full */
+            height: 8px; /* h-2 */
+            background: #e2e8f0; /* bg-slate-200 */
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 24px; /* h-6 */
+            width: 24px; /* w-6 */
+            background-color: #ffffff; /* bg-white */
+            border-radius: 50%;
+            border: 2px solid #3b82f6; /* border-blue-500 */
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); /* shadow-md */
+            transition: background-color 0.2s ease-in-out;
+        }
+        input[type=range]::-moz-range-thumb {
+            height: 24px;
+            width: 24px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            border: 2px solid #3b82f6;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            transition: background-color 0.2s ease-in-out;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-2xl mx-auto p-4">
+        <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-10">
+            
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-3xl sm:text-4xl font-bold text-gray-800">Calculadora Solar</h1>
+                <p class="text-gray-500 mt-2">Estima el número de paneles solares que necesitas para tu hogar.</p>
+            </div>
+
+            <!-- Calculator Inputs -->
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <!-- Verano Input -->
+                <div class="bg-orange-50 rounded-xl p-4 border border-orange-200">
+                    <label for="gasto-verano-input" class="block text-lg font-medium text-gray-700 mb-2">Gasto mensual aproximado en <strong>Verano</strong> ☀️ <span class="text-sm font-normal">(May-Oct)</span></label>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xl font-bold text-orange-600">$</span>
+                        <input type="text" id="gasto-verano-input" class="text-xl font-bold text-orange-600 w-full bg-transparent p-2 text-center" value="4,000.00" inputmode="decimal">
+                    </div>
+                    <input type="range" id="gasto-verano-slider" class="w-full mt-2" value="4000" min="100" max="25000" step="50">
+                    <span id="consumo-kwh-verano" class="text-gray-500 font-medium text-sm block mt-1 text-center">(~1,288 kWh aproximadamente)</span>
+                </div>
+                 <!-- Invierno Input -->
+                <div class="bg-sky-50 rounded-xl p-4 border border-sky-200">
+                    <label for="gasto-invierno-input" class="block text-lg font-medium text-gray-700 mb-2">Gasto mensual aproximado en <strong>Invierno</strong> ❄️ <span class="text-sm font-normal">(Nov-Abr)</span></label>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xl font-bold text-sky-600">$</span>
+                        <input type="text" id="gasto-invierno-input" class="text-xl font-bold text-sky-600 w-full bg-transparent p-2 text-center" value="800.00" inputmode="decimal">
+                    </div>
+                    <input type="range" id="gasto-invierno-slider" class="w-full mt-2" value="800" min="100" max="25000" step="50">
+                    <span id="consumo-kwh-invierno" class="text-gray-500 font-medium text-sm block mt-1 text-center">(~259 kWh aproximadamente)</span>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-6 text-center">
+                <p class="text-lg text-blue-800 mb-2">Número estimado de paneles que necesitas:</p>
+                <div class="flex items-center justify-center">
+                    <span id="numero-paneles" class="text-6xl sm:text-7xl font-bold text-blue-600" style="line-height: 1;">12</span>
+                </div>
+                <p id="generacion-anual" class="text-sm font-medium text-blue-400 mt-1">13,200 kWh anual</p>
+
+                <div id="paneles-iconos-container" class="flex flex-wrap justify-center items-center gap-2 mt-4 min-h-[80px]">
+                    <!-- Icons are generated here by JavaScript -->
+                </div>
+                <p class="text-lg text-green-700 mt-4 font-medium">Con este sistema, podrías generar un ahorro anual de <strong id="ahorro-anual" class="block text-4xl mt-1">$28,800</strong>.</p>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="text-center mt-8">
+                 <div class="text-xs text-gray-400 space-y-1">
+                    <p>*Estimación para fines informativos.</p>
+                    <p>Cálculos basados en la tarifa 1F de CFE en 2025.</p>
+                    <p>Considerando paneles JA Solar de 620 W.</p>
+                    <p>Este instrumento no sustituye una cotización formal ni un estudio energético.</p>
+                </div>
+                <p class="text-xs text-gray-500 mt-4 pt-3 border-t border-gray-200 inline-block">
+                    Desarrollado por <a href="https://www.rennergy.mx" target="_blank" class="font-semibold text-blue-600 hover:underline">Rennergy</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const gastoVeranoInput = document.getElementById('gasto-verano-input');
+            const gastoVeranoSlider = document.getElementById('gasto-verano-slider');
+            const gastoInviernoInput = document.getElementById('gasto-invierno-input');
+            const gastoInviernoSlider = document.getElementById('gasto-invierno-slider');
+            const consumoKwhVeranoDisplay = document.getElementById('consumo-kwh-verano');
+            const consumoKwhInviernoDisplay = document.getElementById('consumo-kwh-invierno');
+            const numeroPanelesDisplay = document.getElementById('numero-paneles');
+            const ahorroAnualDisplay = document.getElementById('ahorro-anual');
+            const panelesIconosContainer = document.getElementById('paneles-iconos-container');
+            const generacionAnualDisplay = document.getElementById('generacion-anual');
+
+            const ENERGIA_PANEL_ANUAL = 1100; // kWh produced by one panel in a year
+            
+            const TARIFAS = {
+                invierno: [ // Nov-Apr
+                    { limiteKwh: 75,  costo: 1.081 },
+                    { limiteKwh: 125, costo: 1.3125 },
+                    { limiteKwh: Infinity, costo: 3.840166667 }
+                ],
+                verano: [ // May-Oct
+                    { limiteKwh: 300,  costo: 0.8105 },
+                    { limiteKwh: 900,  costo: 1.006 },
+                    { limiteKwh: 1300, costo: 2.445716667 },
+                    { limiteKwh: Infinity, costo: 3.86805 }
+                ]
+            };
+
+            function formatToCurrency(value) {
+                const num = Number(value);
+                if (isNaN(num)) return '0.00';
+                return new Intl.NumberFormat('es-MX', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }).format(num);
+            }
+
+            function parseFromCurrency(value) {
+                const cleanValue = String(value).replace(/[^0-9,.]/g, '').replace(',', '');
+                return parseFloat(cleanValue) || 0;
+            }
+
+            function calcularKwhDesdeGasto(gastoMensual, temporada) {
+                if (gastoMensual <= 0) return 0;
+                const tarifasTemporada = TARIFAS[temporada];
+                let kwhCalculados = 0, gastoAcumulado = 0, kwhAcumulados = 0;
+                for (const tramo of tarifasTemporada) {
+                    const kwhEnTramoAnterior = kwhAcumulados;
+                    const kwhEnTramoActual = tramo.limiteKwh - kwhEnTramoAnterior;
+                    const costoTramo = kwhEnTramoActual * tramo.costo;
+                    if (gastoMensual > gastoAcumulado + costoTramo && tramo.limiteKwh !== Infinity) {
+                        gastoAcumulado += costoTramo;
+                        kwhAcumulados += kwhEnTramoActual;
+                    } else {
+                        const gastoRestante = gastoMensual - gastoAcumulado;
+                        kwhCalculados = kwhAcumulados + (gastoRestante / tramo.costo);
+                        return Math.round(kwhCalculados);
+                    }
+                }
+                return Math.round(kwhCalculados);
+            }
+            
+            function actualizarIconosPaneles(cantidad) {
+                panelesIconosContainer.innerHTML = '';
+                if (cantidad <= 0) return;
+
+                if (cantidad > 50) {
+                    const giantPanelIconSvg = `
+                        <div class="flex items-center justify-center gap-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span class="text-4xl font-bold text-gray-700">x ${cantidad}</span>
+                        </div>
+                    `;
+                    panelesIconosContainer.innerHTML = giantPanelIconSvg;
+                } else {
+                    const panelIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>`;
+                    for (let i = 0; i < cantidad; i++) {
+                        panelesIconosContainer.innerHTML += panelIconSvg;
+                    }
+                }
+            }
+            
+            function recalcularTodo() {
+                const gastoVerano = parseFromCurrency(gastoVeranoInput.value);
+                const gastoInvierno = parseFromCurrency(gastoInviernoInput.value);
+                const kwhVerano = calcularKwhDesdeGasto(gastoVerano, 'verano');
+                const kwhInvierno = calcularKwhDesdeGasto(gastoInvierno, 'invierno');
+                consumoKwhVeranoDisplay.textContent = `(~${kwhVerano.toLocaleString('es-MX')} kWh aproximadamente)`;
+                consumoKwhInviernoDisplay.textContent = `(~${kwhInvierno.toLocaleString('es-MX')} kWh aproximadamente)`;
+                const consumoAnualKwh = (kwhVerano * 6) + (kwhInvierno * 6);
+                
+                if (consumoAnualKwh <= 0) {
+                    numeroPanelesDisplay.textContent = 0;
+                    actualizarIconosPaneles(0);
+                    generacionAnualDisplay.textContent = '';
+                } else {
+                    const numeroDePaneles = Math.ceil(consumoAnualKwh / ENERGIA_PANEL_ANUAL);
+                    numeroPanelesDisplay.textContent = numeroDePaneles;
+                    actualizarIconosPaneles(numeroDePaneles);
+                    const generacionRealAnual = numeroDePaneles * ENERGIA_PANEL_ANUAL;
+                    generacionAnualDisplay.textContent = `${generacionRealAnual.toLocaleString('es-MX')} kWh anual`;
+                }
+
+                const ahorroAnual = (gastoVerano * 6) + (gastoInvierno * 6);
+                ahorroAnualDisplay.textContent = `$${ahorroAnual.toLocaleString('es-MX', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+            }
+
+            function setupEventListeners(inputElement, sliderElement) {
+                sliderElement.addEventListener('input', (e) => {
+                    inputElement.value = formatToCurrency(e.target.value);
+                    recalcularTodo();
+                });
+                inputElement.addEventListener('input', (e) => {
+                    sliderElement.value = parseFromCurrency(e.target.value);
+                    recalcularTodo();
+                });
+                inputElement.addEventListener('blur', (e) => {
+                    const parsedValue = parseFromCurrency(e.target.value);
+                    e.target.value = formatToCurrency(parsedValue);
+                    sliderElement.value = parsedValue;
+                    recalcularTodo();
+                });
+            }
+
+            setupEventListeners(gastoVeranoInput, gastoVeranoSlider);
+            setupEventListeners(gastoInviernoInput, gastoInviernoSlider);
+
+            recalcularTodo();
+        });
+    </script>
+</body>
+</html>

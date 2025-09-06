@@ -87,7 +87,10 @@
                 <div class="flex items-center justify-center">
                     <span id="numero-paneles" class="text-6xl sm:text-7xl font-bold text-blue-600" style="line-height: 1;">12</span>
                 </div>
-                <p id="generacion-anual" class="text-sm font-medium text-blue-400 mt-1">13,200 kWh anual</p>
+                <div class="mt-1">
+                    <p id="generacion-anual" class="text-sm font-medium text-blue-400">13,200 kWh anual</p>
+                    <p id="potencia-pico" class="text-sm font-medium text-blue-400"></p>
+                </div>
 
                 <div id="paneles-iconos-container" class="flex flex-wrap justify-center items-center gap-2 mt-4 min-h-[80px]">
                     <!-- Icons are generated here by JavaScript -->
@@ -124,6 +127,7 @@
             const ahorroAnualDisplay = document.getElementById('ahorro-anual');
             const panelesIconosContainer = document.getElementById('paneles-iconos-container');
             const generacionAnualDisplay = document.getElementById('generacion-anual');
+            const potenciaPicoDisplay = document.getElementById('potencia-pico');
 
             const ENERGIA_PANEL_ANUAL = 1100; // kWh produced by one panel in a year
             
@@ -210,12 +214,17 @@
                     numeroPanelesDisplay.textContent = 0;
                     actualizarIconosPaneles(0);
                     generacionAnualDisplay.textContent = '';
+                    potenciaPicoDisplay.textContent = '';
                 } else {
                     const numeroDePaneles = Math.ceil(consumoAnualKwh / ENERGIA_PANEL_ANUAL);
                     numeroPanelesDisplay.textContent = numeroDePaneles;
                     actualizarIconosPaneles(numeroDePaneles);
+                    
                     const generacionRealAnual = numeroDePaneles * ENERGIA_PANEL_ANUAL;
                     generacionAnualDisplay.textContent = `${generacionRealAnual.toLocaleString('es-MX')} kWh anual`;
+                    
+                    const potenciaPico = (numeroDePaneles * 0.62).toFixed(2);
+                    potenciaPicoDisplay.textContent = `${potenciaPico} kWp`;
                 }
 
                 const ahorroAnual = (gastoVerano * 6) + (gastoInvierno * 6);
@@ -246,5 +255,5 @@
         });
     </script>
 </body>
-
 </html>
+

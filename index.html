@@ -7,32 +7,31 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display-swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f7fafc;
+            background-color: transparent;
         }
-        /* Estilos para los sliders (range inputs) */
         input[type=range] {
             -webkit-appearance: none;
             appearance: none;
             width: 100%;
             cursor: pointer;
             outline: none;
-            border-radius: 9999px; /* rounded-full */
-            height: 8px; /* h-2 */
-            background: #e2e8f0; /* bg-slate-200 */
+            border-radius: 9999px;
+            height: 8px;
+            background: #e2e8f0;
         }
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            height: 24px; /* h-6 */
-            width: 24px; /* w-6 */
-            background-color: #ffffff; /* bg-white */
+            height: 24px;
+            width: 24px;
+            background-color: #ffffff;
             border-radius: 50%;
-            border: 2px solid #3b82f6; /* border-blue-500 */
-            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); /* shadow-md */
+            border: 2px solid #3b82f6;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
             transition: background-color 0.2s ease-in-out;
         }
         input[type=range]::-moz-range-thumb {
@@ -44,11 +43,27 @@
             box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
             transition: background-color 0.2s ease-in-out;
         }
+        .panel-wrapper {
+            opacity: 0;
+            transform-style: preserve-3d;
+            transform: translateY(20px);
+            animation: fadeInPanel 0.4s ease-out forwards;
+            animation-delay: calc(var(--i) * 0.04s);
+        }
+        #paneles-iconos-container, #background-roof-image {
+            transition: transform 0.5s ease-in-out, gap 0.3s ease-in-out;
+        }
+        @keyframes fadeInPanel {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen">
 
-    <div class="w-full max-w-2xl mx-auto p-4">
+    <div class="w-full max-w-3xl mx-auto p-4">
         <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-10">
             
             <!-- Header -->
@@ -61,41 +76,66 @@
             <div class="grid md:grid-cols-2 gap-6 mb-8">
                 <!-- Verano Input -->
                 <div class="bg-orange-50 rounded-xl p-4 border border-orange-200">
-                    <label for="gasto-verano-input" class="block text-lg font-medium text-gray-700 mb-2">Gasto mensual aproximado en <strong>Verano</strong> ☀️ <span class="text-sm font-normal">(May-Oct)</span></label>
+                    <label for="gasto-verano-input" class="block text-lg font-medium text-gray-700 mb-2">Gasto mensual en <strong>Verano</strong> ☀️ <span class="text-sm font-normal">(May-Oct)</span></label>
                     <div class="flex items-center space-x-2">
                         <span class="text-xl font-bold text-orange-600">$</span>
                         <input type="text" id="gasto-verano-input" class="text-xl font-bold text-orange-600 w-full bg-transparent p-2 text-center" value="4,000.00" inputmode="decimal">
                     </div>
                     <input type="range" id="gasto-verano-slider" class="w-full mt-2" value="4000" min="100" max="25000" step="50">
-                    <span id="consumo-kwh-verano" class="text-gray-500 font-medium text-sm block mt-1 text-center">(~1,288 kWh aproximadamente)</span>
+                    <span id="consumo-kwh-verano" class="text-gray-500 font-medium text-sm block mt-1 text-center">(~1,288 kWh)</span>
                 </div>
                  <!-- Invierno Input -->
                 <div class="bg-sky-50 rounded-xl p-4 border border-sky-200">
-                    <label for="gasto-invierno-input" class="block text-lg font-medium text-gray-700 mb-2">Gasto mensual aproximado en <strong>Invierno</strong> ❄️ <span class="text-sm font-normal">(Nov-Abr)</span></label>
+                    <label for="gasto-invierno-input" class="block text-lg font-medium text-gray-700 mb-2">Gasto mensual en <strong>Invierno</strong> ❄️ <span class="text-sm font-normal">(Nov-Abr)</span></label>
                     <div class="flex items-center space-x-2">
                         <span class="text-xl font-bold text-sky-600">$</span>
                         <input type="text" id="gasto-invierno-input" class="text-xl font-bold text-sky-600 w-full bg-transparent p-2 text-center" value="800.00" inputmode="decimal">
                     </div>
                     <input type="range" id="gasto-invierno-slider" class="w-full mt-2" value="800" min="100" max="25000" step="50">
-                    <span id="consumo-kwh-invierno" class="text-gray-500 font-medium text-sm block mt-1 text-center">(~259 kWh aproximadamente)</span>
+                    <span id="consumo-kwh-invierno" class="text-gray-500 font-medium text-sm block mt-1 text-center">(~259 kWh)</span>
                 </div>
             </div>
 
             <!-- Results -->
-            <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-6 text-center">
-                <p class="text-lg text-blue-800 mb-2">Número estimado de paneles que necesitas:</p>
-                <div class="flex items-center justify-center">
-                    <span id="numero-paneles" class="text-6xl sm:text-7xl font-bold text-blue-600" style="line-height: 1;">12</span>
-                </div>
-                <div class="mt-1">
-                    <p id="generacion-anual" class="text-sm font-medium text-blue-400">13,200 kWh anual</p>
-                    <p id="potencia-pico" class="text-sm font-medium text-blue-400"></p>
+            <div class="bg-gray-50 rounded-xl border p-4 sm:p-6 grid md:grid-cols-2 gap-6 items-center">
+                <!-- Visual Column -->
+                <div class="relative w-full h-64 sm:h-80 rounded-lg overflow-hidden">
+                    <!-- Interactive View (default) -->
+                    <div id="interactive-view" class="" style="perspective: 800px; width: 100%; height: 100%;">
+                        <!-- INSTRUCCIÓN: Asegúrate de tener una imagen llamada "roof-texture.webp" en tu repositorio de GitHub -->
+                        <img id="background-roof-image" src="./roof-texture.webp" class="absolute top-0 left-0 w-full h-full object-cover" alt="Textura de tejas oscuras con cielo">
+                        <div class="absolute top-0 left-0 w-full h-full bg-black/10"></div>
+                        <div id="paneles-iconos-container" class="absolute top-[10%] left-[10%] w-[80%] h-[80%] grid grid-cols-6">
+                            <!-- Panels are generated here -->
+                        </div>
+                    </div>
+                     <!-- Static View (hidden by default) -->
+                    <div id="static-view" class="hidden w-full h-full">
+                        <!-- INSTRUCCIÓN: Asegúrate de tener una imagen llamada "large-system.jpg" en tu repositorio de GitHub -->
+                        <img src="./large-system.jpg" class="w-full h-full object-cover" alt="Sistema grande de paneles solares">
+                        <div class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center p-4">
+                            <p class="text-white text-lg font-semibold text-center">Visualización para sistemas grandes</p>
+                             <p class="text-white/80 text-sm text-center">Más de 36 paneles</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div id="paneles-iconos-container" class="flex flex-wrap justify-center items-center gap-2 mt-4 min-h-[80px]">
-                    <!-- Icons are generated here by JavaScript -->
+                <!-- Data Column -->
+                <div class="text-center md:text-left">
+                    <p class="text-gray-600 font-medium">Número estimado de paneles que necesitas:</p>
+                    <div class="flex items-baseline justify-center md:justify-start gap-3 my-2">
+                        <span id="numero-paneles" class="text-7xl font-bold text-blue-600" style="line-height: 1;">12</span>
+                        <span class="text-2xl font-semibold text-gray-700">paneles</span>
+                    </div>
+                     <div class="text-sm text-gray-500 mb-4">
+                        <span id="generacion-anual">13,200 kWh/año</span> | 
+                        <span id="potencia-pico">7.44 kWp</span>
+                    </div>
+                    <div class="bg-green-100 text-green-800 rounded-lg p-4">
+                        <p class="font-medium">Ahorro anual estimado de:</p>
+                        <strong id="ahorro-anual" class="block text-4xl mt-1">$28,800</strong>
+                    </div>
                 </div>
-                <p class="text-lg text-green-700 mt-4 font-medium">Con este sistema, podrías generar un ahorro anual de <strong id="ahorro-anual" class="block text-4xl mt-1">$28,800</strong>.</p>
             </div>
 
             <!-- Disclaimer -->
@@ -128,6 +168,10 @@
             const panelesIconosContainer = document.getElementById('paneles-iconos-container');
             const generacionAnualDisplay = document.getElementById('generacion-anual');
             const potenciaPicoDisplay = document.getElementById('potencia-pico');
+            const backgroundRoofImage = document.getElementById('background-roof-image');
+            const interactiveView = document.getElementById('interactive-view');
+            const staticView = document.getElementById('static-view');
+
 
             const ENERGIA_PANEL_ANUAL = 1100; // kWh produced by one panel in a year
             
@@ -183,33 +227,36 @@
                 panelesIconosContainer.innerHTML = '';
                 if (cantidad <= 0) return;
 
-                // CAMBIO 1: El límite para mostrar el ícono grande ahora es 30 en lugar de 50.
-                if (cantidad > 30) {
-                    const giantPanelIconSvg = `
-                        <div class="flex items-center justify-center gap-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" zoomAndPan="magnify" viewBox="0 0 75 74.999997" height="100" preserveAspectRatio="xMidYMid meet" version="1.0"><defs><clipPath id="8ae7e0565a"><path d="M 36 6.269531 L 38 6.269531 L 38 13 L 36 13 Z M 36 6.269531 " clip-rule="nonzero"/></clipPath><clipPath id="041fef8ef7"><path d="M 47 46 L 68.519531 46 L 68.519531 65 L 47 65 Z M 47 46 " clip-rule="nonzero"/></clipPath><clipPath id="7e60bad025"><path d="M 6.269531 46 L 28 46 L 28 65 L 6.269531 65 Z M 6.269531 46 " clip-rule="nonzero"/></clipPath><clipPath id="05774b1756"><path d="M 36.988281 65.433594 L 38.011719 65.433594 L 38.011719 68.519531 L 36.988281 68.519531 Z M 36.988281 65.433594 " clip-rule="nonzero"/></clipPath><clipPath id="9bc713fed3"><path d="M 30.847656 67.480469 L 44.152344 67.480469 L 44.152344 68.519531 L 30.847656 68.519531 Z M 30.847656 67.480469 " clip-rule="nonzero"/></clipPath></defs><path fill="#00167a" d="M 37.425781 16.839844 C 32.15625 16.839844 27.871094 21.125 27.871094 26.394531 C 27.871094 31.664062 32.15625 35.949219 37.425781 35.949219 C 42.695312 35.949219 46.980469 31.664062 46.980469 26.394531 C 46.980469 21.125 42.695312 16.839844 37.425781 16.839844 Z M 37.425781 36.972656 C 31.59375 36.972656 26.847656 32.226562 26.847656 26.394531 C 26.847656 20.5625 31.59375 15.816406 37.425781 15.816406 C 43.257812 15.816406 48.003906 20.5625 48.003906 26.394531 C 48.003906 32.226562 43.257812 36.972656 37.425781 36.972656 " fill-opacity="1" fill-rule="nonzero"/><g clip-path="url(#8ae7e0565a)"><path fill="#00167a" d="M 37.40625 12.0625 C 37.125 12.0625 36.894531 11.835938 36.894531 11.550781 L 36.894531 6.800781 C 36.894531 6.519531 37.125 6.289062 37.40625 6.289062 C 37.691406 6.289062 37.917969 6.519531 37.917969 6.800781 L 37.917969 11.550781 C 37.917969 11.835938 37.691406 12.0625 37.40625 12.0625 " fill-opacity="1" fill-rule="nonzero"/></g><path fill="#00167a" d="M 29.976562 14.085938 C 29.800781 14.085938 29.628906 13.992188 29.535156 13.828125 L 27.152344 9.703125 C 27.011719 9.457031 27.097656 9.144531 27.339844 9.003906 C 27.585938 8.863281 27.898438 8.945312 28.039062 9.191406 L 30.421875 13.316406 C 30.5625 13.5625 30.476562 13.875 30.234375 14.015625 C 30.152344 14.0625 30.0625 14.085938 29.976562 14.085938 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 24.5625 19.527344 C 24.476562 19.527344 24.386719 19.503906 24.308594 19.457031 L 20.183594 17.074219 C 19.941406 16.933594 19.855469 16.621094 19.996094 16.378906 C 20.136719 16.132812 20.449219 16.046875 20.695312 16.191406 L 24.820312 18.570312 C 25.0625 18.710938 25.148438 19.023438 25.007812 19.269531 C 24.910156 19.433594 24.738281 19.527344 24.5625 19.527344 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 22.730469 26.925781 L 17.976562 26.925781 C 17.695312 26.925781 17.464844 26.695312 17.464844 26.414062 C 17.464844 26.132812 17.695312 25.902344 17.976562 25.902344 L 22.730469 25.902344 C 23.011719 25.902344 23.242188 26.132812 23.242188 26.414062 C 23.242188 26.695312 23.011719 26.925781 22.730469 26.925781 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 20.511719 36.714844 C 20.335938 36.714844 20.164062 36.625 20.070312 36.460938 C 19.925781 36.214844 20.011719 35.902344 20.257812 35.761719 L 24.378906 33.378906 C 24.625 33.238281 24.9375 33.324219 25.078125 33.566406 C 25.21875 33.8125 25.136719 34.125 24.890625 34.265625 L 20.769531 36.648438 C 20.6875 36.695312 20.597656 36.714844 20.511719 36.714844 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 27.683594 43.859375 C 27.59375 43.859375 27.507812 43.835938 27.425781 43.789062 C 27.183594 43.648438 27.097656 43.335938 27.238281 43.089844 L 29.621094 38.96875 C 29.761719 38.722656 30.074219 38.640625 30.320312 38.78125 C 30.5625 38.921875 30.648438 39.234375 30.507812 39.480469 L 28.125 43.601562 C 28.03125 43.765625 27.859375 43.859375 27.683594 43.859375 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 37.53125 46.417969 C 37.246094 46.417969 37.019531 46.1875 37.019531 45.90625 L 37.019531 41.152344 C 37.019531 40.871094 37.246094 40.640625 37.53125 40.640625 C 37.8125 40.640625 38.042969 40.871094 38.042969 41.152344 L 38.042969 45.90625 C 38.042969 46.1875 37.8125 46.417969 37.53125 46.417969 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 47.269531 43.800781 C 47.09375 43.800781 46.921875 43.710938 46.824219 43.546875 L 44.445312 39.421875 C 44.304688 39.175781 44.386719 38.863281 44.632812 38.722656 C 44.875 38.582031 45.1875 38.664062 45.332031 38.910156 L 47.710938 43.035156 C 47.851562 43.277344 47.769531 43.589844 47.523438 43.730469 C 47.441406 43.777344 47.355469 43.800781 47.269531 43.800781 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 54.394531 36.617188 C 54.308594 36.617188 54.222656 36.59375 54.140625 36.546875 L 50.015625 34.167969 C 49.773438 34.023438 49.6875 33.710938 49.828125 33.46875 C 49.96875 33.222656 50.285156 33.140625 50.527344 33.28125 L 54.652344 35.660156 C 54.898438 35.800781 54.980469 36.117188 54.839844 36.359375 C 54.746094 36.523438 54.574219 36.617188 54.394531 36.617188 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 57.019531 26.863281 L 52.332031 26.863281 C 52.046875 26.863281 51.820312 26.636719 51.820312 26.351562 C 51.820312 26.070312 52.046875 25.839844 52.332031 25.839844 L 57.019531 25.839844 C 57.304688 25.839844 57.53125 26.070312 57.53125 26.351562 C 57.53125 26.636719 57.304688 26.863281 57.019531 26.863281 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 50.230469 19.425781 C 50.050781 19.425781 49.878906 19.332031 49.785156 19.167969 C 49.644531 18.925781 49.726562 18.613281 49.972656 18.472656 L 54.097656 16.089844 C 54.339844 15.949219 54.65625 16.03125 54.796875 16.277344 C 54.9375 16.519531 54.851562 16.835938 54.609375 16.976562 L 50.484375 19.355469 C 50.402344 19.402344 50.316406 19.425781 50.230469 19.425781 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 44.773438 14.027344 C 44.683594 14.027344 44.597656 14.003906 44.515625 13.957031 C 44.273438 13.816406 44.1875 13.503906 44.328125 13.257812 L 46.710938 9.132812 C 46.851562 8.890625 47.164062 8.804688 47.410156 8.945312 C 47.65625 9.089844 47.738281 9.402344 47.597656 9.644531 L 45.214844 13.769531 C 45.121094 13.933594 44.949219 14.027344 44.773438 14.027344 " fill-opacity="1" fill-rule="nonzero"/><g clip-path="url(#041fef8ef7)"><path fill="#00167a" d="M 59.519531 64.253906 L 54.332031 64.253906 C 54.050781 64.253906 53.820312 64.027344 53.820312 63.742188 C 53.820312 63.460938 54.050781 63.230469 54.332031 63.230469 L 59.203125 63.230469 L 61.933594 57.992188 C 61.933594 57.988281 61.933594 57.984375 61.9375 57.984375 L 64.820312 52.449219 C 64.828125 52.433594 64.832031 52.417969 64.839844 52.40625 L 67.355469 47.574219 L 48.242188 47.574219 C 47.960938 47.574219 47.730469 47.347656 47.730469 47.0625 C 47.730469 46.78125 47.960938 46.550781 48.242188 46.550781 L 68.199219 46.550781 C 68.375 46.550781 68.542969 46.644531 68.636719 46.800781 C 68.726562 46.953125 68.734375 47.140625 68.652344 47.300781 L 65.761719 52.851562 C 65.753906 52.867188 65.75 52.882812 65.742188 52.894531 L 62.835938 58.46875 C 62.835938 58.472656 62.835938 58.472656 62.835938 58.476562 L 60 63.921875 C 59.925781 64.117188 59.738281 64.253906 59.519531 64.253906 " fill-opacity="1" fill-rule="nonzero"/></g><path fill="#00167a" d="M 53.449219 61.789062 C 53.367188 61.789062 53.289062 61.769531 53.210938 61.730469 C 52.960938 61.597656 52.863281 61.289062 52.996094 61.039062 L 60.371094 46.886719 C 60.5 46.636719 60.808594 46.539062 61.0625 46.671875 C 61.3125 46.800781 61.410156 47.113281 61.277344 47.363281 L 58.394531 52.894531 L 53.902344 61.511719 C 53.8125 61.6875 53.632812 61.789062 53.449219 61.789062 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 50.414062 53.53125 C 50.335938 53.53125 50.253906 53.511719 50.179688 53.472656 C 49.929688 53.339844 49.832031 53.03125 49.960938 52.78125 L 50.144531 52.429688 C 50.148438 52.425781 50.148438 52.421875 50.148438 52.421875 L 53.035156 46.886719 C 53.164062 46.636719 53.472656 46.539062 53.722656 46.671875 C 53.972656 46.800781 54.070312 47.113281 53.941406 47.363281 L 51.058594 52.890625 C 51.058594 52.894531 51.054688 52.898438 51.054688 52.898438 L 50.871094 53.253906 C 50.777344 53.429688 50.601562 53.53125 50.414062 53.53125 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 62.363281 58.730469 L 52.335938 58.730469 C 52.054688 58.730469 51.824219 58.5 51.824219 58.21875 C 51.824219 57.9375 52.054688 57.707031 52.335938 57.707031 L 62.363281 57.707031 C 62.648438 57.707031 62.875 57.9375 62.875 58.21875 C 62.875 58.5 62.648438 58.730469 62.363281 58.730469 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 65.332031 53.152344 L 50.289062 53.152344 C 50.007812 53.152344 49.777344 52.925781 49.777344 52.640625 C 49.777344 52.359375 50.007812 52.128906 50.289062 52.128906 L 65.332031 52.128906 C 65.617188 52.128906 65.84375 52.359375 65.84375 52.640625 C 65.84375 52.925781 65.617188 53.152344 65.332031 53.152344 " fill-opacity="1" fill-rule="nonzero"/><g clip-path="url(#7e60bad025)"><path fill="#00167a" d="M 20.667969 64.253906 L 15.480469 64.253906 C 15.261719 64.253906 15.074219 64.117188 15 63.921875 L 12.164062 58.480469 C 12.160156 58.472656 12.15625 58.464844 12.15625 58.460938 L 12.148438 58.449219 L 9.253906 52.894531 C 9.253906 52.894531 9.253906 52.890625 9.25 52.886719 C 9.246094 52.871094 9.238281 52.859375 9.234375 52.84375 L 6.347656 47.300781 C 6.265625 47.140625 6.269531 46.953125 6.363281 46.800781 C 6.457031 46.644531 6.621094 46.550781 6.800781 46.550781 L 26.753906 46.550781 C 27.039062 46.550781 27.265625 46.78125 27.265625 47.0625 C 27.265625 47.347656 27.039062 47.574219 26.753906 47.574219 L 7.644531 47.574219 L 10.160156 52.40625 C 10.167969 52.421875 10.175781 52.441406 10.179688 52.457031 L 13.0625 57.984375 C 13.066406 57.992188 13.070312 58 13.074219 58.007812 L 13.078125 58.019531 L 15.792969 63.230469 L 20.667969 63.230469 C 20.949219 63.230469 21.179688 63.460938 21.179688 63.742188 C 21.179688 64.027344 20.949219 64.253906 20.667969 64.253906 " fill-opacity="1" fill-rule="nonzero"/></g><path fill="#00167a" d="M 21.546875 61.785156 C 21.363281 61.785156 21.1875 61.683594 21.09375 61.507812 L 19.492188 58.433594 L 16.605469 52.898438 C 16.605469 52.898438 16.605469 52.894531 16.601562 52.894531 L 13.71875 47.363281 C 13.589844 47.113281 13.6875 46.800781 13.9375 46.671875 C 14.1875 46.539062 14.496094 46.636719 14.628906 46.886719 L 17.511719 52.421875 C 17.511719 52.421875 17.511719 52.425781 17.515625 52.425781 L 20.414062 57.988281 L 22.003906 61.035156 C 22.132812 61.289062 22.035156 61.597656 21.785156 61.726562 C 21.710938 61.765625 21.628906 61.785156 21.546875 61.785156 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 24.578125 53.519531 C 24.394531 53.519531 24.214844 53.417969 24.125 53.242188 L 23.941406 52.898438 C 23.941406 52.898438 23.941406 52.894531 23.941406 52.894531 L 21.058594 47.363281 C 20.925781 47.113281 21.023438 46.800781 21.273438 46.671875 C 21.527344 46.539062 21.835938 46.636719 21.964844 46.886719 L 24.847656 52.421875 C 24.847656 52.421875 24.851562 52.425781 24.851562 52.425781 L 25.03125 52.773438 C 25.160156 53.023438 25.0625 53.332031 24.8125 53.460938 C 24.738281 53.5 24.65625 53.519531 24.578125 53.519531 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 22.660156 58.730469 L 12.632812 58.730469 C 12.351562 58.730469 12.121094 58.5 12.121094 58.21875 C 12.121094 57.9375 12.351562 57.707031 12.632812 57.707031 L 22.660156 57.707031 C 22.945312 57.707031 23.171875 57.9375 23.171875 58.21875 C 23.171875 58.5 22.945312 58.730469 22.660156 58.730469 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 24.707031 53.152344 L 9.664062 53.152344 C 9.382812 53.152344 9.15625 52.925781 9.15625 52.640625 C 9.15625 52.359375 9.382812 52.128906 9.664062 52.128906 L 24.707031 52.128906 C 24.992188 52.128906 25.21875 52.359375 25.21875 52.640625 C 25.21875 52.925781 24.992188 53.152344 24.707031 53.152344 " fill-opacity="1" fill-rule="nonzero"/><g clip-path="url(#05774b1756)"><path fill="#00167a" d="M 37.5 68.707031 C 37.21875 68.707031 36.988281 68.476562 36.988281 68.195312 L 36.988281 65.996094 C 36.988281 65.710938 37.21875 65.484375 37.5 65.484375 C 37.78125 65.484375 38.011719 65.710938 38.011719 65.996094 L 38.011719 68.195312 C 38.011719 68.476562 37.78125 68.707031 37.5 68.707031 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#9bc713fed3)"><path fill="#00167a" d="M 43.640625 68.707031 L 31.359375 68.707031 C 31.078125 68.707031 30.847656 68.476562 30.847656 68.195312 C 30.847656 67.914062 31.078125 67.683594 31.359375 67.683594 L 43.640625 67.683594 C 43.921875 67.683594 44.152344 67.914062 44.152344 68.195312 C 44.152344 68.476562 43.921875 68.707031 43.640625 68.707031 " fill-opacity="1" fill-rule="nonzero"/></g><path fill="#00167a" d="M 23.039062 65.484375 L 51.957031 65.484375 L 46.253906 49.929688 L 28.730469 49.929688 L 26.824219 55.140625 Z M 22.304688 66.515625 C 22.273438 66.515625 22.246094 66.515625 22.214844 66.507812 C 21.96875 66.464844 21.792969 66.253906 21.792969 66.003906 L 21.792969 65.996094 C 21.792969 65.914062 21.8125 65.832031 21.847656 65.765625 L 25.863281 54.789062 L 27.890625 49.242188 C 27.964844 49.039062 28.160156 48.90625 28.371094 48.90625 L 46.609375 48.90625 C 46.824219 48.90625 47.015625 49.039062 47.089844 49.242188 L 53.152344 65.769531 C 53.1875 65.835938 53.207031 65.914062 53.207031 65.996094 L 53.207031 66.003906 C 53.207031 66.253906 53.027344 66.464844 52.785156 66.507812 C 52.71875 66.519531 52.65625 66.519531 52.59375 66.507812 L 22.40625 66.507812 C 22.371094 66.515625 22.335938 66.515625 22.304688 66.515625 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 42.554688 66.527344 C 42.300781 66.527344 42.078125 66.339844 42.046875 66.078125 L 41.375 60.554688 L 40.023438 49.511719 C 39.992188 49.234375 40.191406 48.976562 40.472656 48.941406 C 40.75 48.90625 41.007812 49.109375 41.042969 49.390625 L 43.0625 65.953125 C 43.097656 66.234375 42.898438 66.488281 42.617188 66.523438 C 42.597656 66.527344 42.574219 66.527344 42.554688 66.527344 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 32.429688 66.527344 C 32.410156 66.527344 32.386719 66.527344 32.367188 66.523438 C 32.085938 66.488281 31.886719 66.234375 31.917969 65.953125 L 32.59375 60.433594 L 33.941406 49.390625 C 33.976562 49.109375 34.230469 48.910156 34.511719 48.941406 C 34.792969 48.976562 34.992188 49.234375 34.957031 49.511719 L 34.285156 55.035156 L 32.9375 66.078125 C 32.902344 66.339844 32.683594 66.527344 32.429688 66.527344 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 50.664062 61.027344 L 24.308594 61.027344 C 24.027344 61.027344 23.796875 60.796875 23.796875 60.515625 C 23.796875 60.230469 24.027344 60.003906 24.308594 60.003906 L 50.664062 60.003906 C 50.945312 60.003906 51.175781 60.230469 51.175781 60.515625 C 51.175781 60.796875 50.945312 61.027344 50.664062 61.027344 " fill-opacity="1" fill-rule="nonzero"/><path fill="#00167a" d="M 48.636719 55.476562 L 26.339844 55.476562 C 26.058594 55.476562 25.828125 55.25 25.828125 54.96875 C 25.828125 54.683594 26.058594 54.457031 26.339844 54.457031 L 48.636719 54.457031 C 48.921875 54.457031 49.148438 54.683594 49.148438 54.96875 C 49.148438 55.25 48.921875 55.476562 48.636719 55.476562 " fill-opacity="1" fill-rule="nonzero"/></svg>
-                            <span class="text-4xl font-bold text-gray-700">x ${cantidad}</span>
-                        </div>
-                    `;
-                    panelesIconosContainer.innerHTML = giantPanelIconSvg;
-                } else {
-                    // CAMBIO 2: Lógica para hacer el tamaño del ícono dinámico.
-                    let iconSize;
-                    if (cantidad <= 5) {
-                        iconSize = 80; // Más grandes
-                    } else if (cantidad <= 10) {
-                        iconSize = 60;
-                    } else if (cantidad <= 20) {
-                        iconSize = 40;
-                    } else { // 21 a 30
-                        iconSize = 20; // Más pequeños
-                    }
+                const panelsToRender = Math.min(cantidad, 36); 
 
-                    // Se inyecta el tamaño dinámico en el SVG
-                    const panelIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${iconSize}" zoomAndPan="magnify" viewBox="0 0 75 74.999997" height="${iconSize}" preserveAspectRatio="xMidYMid meet" version="1.0"><defs><clipPath id="0d1fc7e398"><path d="M 16.421875 19.160156 L 58.421875 19.160156 L 58.421875 55.910156 L 16.421875 55.910156 Z M 16.421875 19.160156 " clip-rule="nonzero"/></clipPath></defs><g clip-path="url(#0d1fc7e398)"><path fill="#00167a" d="M 16.449219 40.210938 L 16.449219 44.285156 C 16.449219 44.472656 16.511719 44.632812 16.644531 44.765625 C 16.777344 44.898438 16.9375 44.964844 17.125 44.964844 L 34.101562 44.964844 L 34.101562 50.398438 C 33.652344 50.398438 33.21875 50.484375 32.804688 50.65625 C 32.386719 50.828125 32.019531 51.074219 31.703125 51.390625 C 31.382812 51.710938 31.136719 52.078125 30.964844 52.492188 C 30.792969 52.910156 30.707031 53.34375 30.707031 53.792969 L 30.707031 54.472656 L 23.917969 54.472656 L 23.917969 55.828125 L 51.078125 55.828125 L 51.078125 54.472656 L 44.289062 54.472656 L 44.289062 53.792969 C 44.289062 53.34375 44.203125 52.910156 44.03125 52.492188 C 43.855469 52.078125 43.613281 51.710938 43.292969 51.390625 C 42.976562 51.074219 42.609375 50.828125 42.191406 50.65625 C 41.777344 50.484375 41.34375 50.398438 40.894531 50.398438 L 40.894531 44.964844 L 57.867188 44.964844 C 58.054688 44.964844 58.214844 44.898438 58.347656 44.765625 C 58.480469 44.632812 58.546875 44.472656 58.546875 44.285156 L 58.546875 40.210938 C 58.546875 40.144531 52.4375 19.644531 52.4375 19.644531 C 52.390625 19.496094 52.304688 19.375 52.179688 19.285156 C 52.054688 19.195312 51.914062 19.15625 51.757812 19.160156 L 23.238281 19.160156 C 23.082031 19.15625 22.941406 19.195312 22.816406 19.285156 C 22.6875 19.375 22.605469 19.496094 22.558594 19.644531 M 56.957031 39.53125 L 45.585938 39.53125 L 44.96875 33.421875 L 55.152344 33.421875 Z M 54.71875 32.0625 L 44.835938 32.0625 L 44.226562 25.953125 L 52.882812 25.953125 Z M 51.253906 20.519531 L 52.476562 24.59375 L 44.089844 24.59375 L 43.683594 20.519531 Z M 32.683594 20.519531 L 42.3125 20.519531 L 42.71875 24.59375 L 32.277344 24.59375 Z M 32.140625 25.953125 L 42.855469 25.953125 L 43.464844 32.0625 L 31.527344 32.0625 Z M 43.609375 33.421875 L 44.21875 39.53125 L 30.78125 39.53125 L 31.394531 33.421875 Z M 23.738281 20.519531 L 31.3125 20.519531 L 30.902344 24.59375 L 22.519531 24.59375 Z M 22.109375 25.953125 L 30.769531 25.953125 L 30.15625 32.0625 L 20.277344 32.0625 Z M 19.84375 33.421875 L 30.027344 33.421875 L 29.417969 39.53125 L 18.035156 39.53125 Z M 42.929688 53.792969 L 42.929688 54.472656 L 32.066406 54.472656 L 32.066406 53.792969 C 32.066406 53.523438 32.117188 53.261719 32.21875 53.011719 C 32.324219 52.761719 32.472656 52.542969 32.660156 52.351562 C 32.851562 52.160156 33.074219 52.015625 33.324219 51.910156 C 33.574219 51.808594 33.832031 51.753906 34.101562 51.753906 L 40.894531 51.753906 C 41.164062 51.753906 41.421875 51.808594 41.671875 51.910156 C 41.921875 52.015625 42.140625 52.160156 42.332031 52.351562 C 42.523438 52.542969 42.671875 52.761719 42.773438 53.011719 C 42.878906 53.261719 42.929688 53.523438 42.929688 53.792969 Z M 35.460938 50.398438 L 35.460938 44.964844 L 39.535156 44.964844 L 39.535156 50.398438 Z M 57.191406 43.605469 L 17.804688 43.605469 L 17.804688 40.890625 L 57.191406 40.890625 Z M 57.191406 43.605469 " fill-opacity="1" fill-rule="nonzero"/></g></svg>`;
-                    for (let i = 0; i < cantidad; i++) {
-                        panelesIconosContainer.innerHTML += panelIconSvg;
-                    }
+                // Dynamic gap logic
+                if (panelsToRender <= 12) {
+                    panelesIconosContainer.style.gap = '4px';
+                } else {
+                    panelesIconosContainer.style.gap = '8px';
+                }
+
+                for (let i = 0; i < panelsToRender; i++) {
+                    const panelSvg = `
+                        <div class="panel-wrapper" style="--i:${i}">
+                            <svg class="w-full h-full" viewBox="0 0 40 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="panelGradient" x1="0" y1="0" x2="1" y2="1">
+                                        <stop offset="0%" stop-color="#4A90E2"/>
+                                        <stop offset="100%" stop-color="#1E3A8A"/>
+                                    </linearGradient>
+                                    <linearGradient id="metalFrame" x1="0" y1="0" x2="1" y2="1">
+                                        <stop offset="0%" stop-color="#D1D5DB"/>
+                                        <stop offset="100%" stop-color="#9CA3AF"/>
+                                    </linearGradient>
+                                </defs>
+                                <rect width="40" height="60" rx="3" fill="url(#metalFrame)"/>
+                                <rect x="2" y="2" width="36" height="56" rx="1" fill="url(#panelGradient)"/>
+                                <rect x="0.5" y="0.5" width="39" height="59" rx="2.5" stroke="black" stroke-opacity="0.3"/>
+                                <path d="M20 2 V58 M2 16 H38 M2 30 H38 M2 44 H38" stroke="white" stroke-opacity="0.15" stroke-width="0.75"/>
+                            </svg>
+                        </div>`;
+                    panelesIconosContainer.innerHTML += panelSvg;
                 }
             }
             
@@ -218,29 +265,61 @@
                 const gastoInvierno = parseFromCurrency(gastoInviernoInput.value);
                 const kwhVerano = calcularKwhDesdeGasto(gastoVerano, 'verano');
                 const kwhInvierno = calcularKwhDesdeGasto(gastoInvierno, 'invierno');
-                consumoKwhVeranoDisplay.textContent = `(~${kwhVerano.toLocaleString('es-MX')} kWh aproximadamente)`;
-                consumoKwhInviernoDisplay.textContent = `(~${kwhInvierno.toLocaleString('es-MX')} kWh aproximadamente)`;
+                consumoKwhVeranoDisplay.textContent = `(~${kwhVerano.toLocaleString('es-MX')} kWh)`;
+                consumoKwhInviernoDisplay.textContent = `(~${kwhInvierno.toLocaleString('es-MX')} kWh)`;
                 const consumoAnualKwh = (kwhVerano * 6) + (kwhInvierno * 6);
                 
                 if (consumoAnualKwh <= 0) {
                     numeroPanelesDisplay.textContent = 0;
                     actualizarIconosPaneles(0);
-                    generacionAnualDisplay.textContent = '';
-                    potenciaPicoDisplay.textContent = '';
+                    generacionAnualDisplay.textContent = '0 kWh/año';
+                    potenciaPicoDisplay.textContent = '0.00 kWp';
+                    ahorroAnualDisplay.textContent = '$0';
+
+                    interactiveView.classList.remove('hidden');
+                    staticView.classList.add('hidden');
+                    panelesIconosContainer.style.transform = 'rotateX(50deg) rotateZ(0deg) translateY(-20px) scale(1.1)';
+                    backgroundRoofImage.style.transform = 'scale(1.2)';
                 } else {
                     const numeroDePaneles = Math.ceil(consumoAnualKwh / ENERGIA_PANEL_ANUAL);
                     numeroPanelesDisplay.textContent = numeroDePaneles;
-                    actualizarIconosPaneles(numeroDePaneles);
                     
+                    if (numeroDePaneles >= 37) {
+                        interactiveView.classList.add('hidden');
+                        staticView.classList.remove('hidden');
+                    } else {
+                        interactiveView.classList.remove('hidden');
+                        staticView.classList.add('hidden');
+                        actualizarIconosPaneles(numeroDePaneles);
+                        
+                        let panelScale, bgScale;
+                        if (numeroDePaneles <= 6) {
+                            panelScale = 1.1; bgScale = 1.2;
+                        } else if (numeroDePaneles <= 12) {
+                            panelScale = 1.06; bgScale = 1.16;
+                        } else if (numeroDePaneles <= 18) {
+                            panelScale = 1.02; bgScale = 1.12;
+                        } else if (numeroDePaneles <= 24) {
+                            panelScale = 0.98; bgScale = 1.08;
+                        } else if (numeroDePaneles <= 30) {
+                            panelScale = 0.94; bgScale = 1.04;
+                        } else { // 31-36
+                            panelScale = 0.9; bgScale = 1.0;
+                        }
+                        
+                        panelesIconosContainer.style.transform = `rotateX(50deg) rotateZ(0deg) translateY(-20px) scale(${panelScale})`;
+                        backgroundRoofImage.style.transform = `scale(${bgScale})`;
+                    }
+
                     const generacionRealAnual = numeroDePaneles * ENERGIA_PANEL_ANUAL;
-                    generacionAnualDisplay.textContent = `${generacionRealAnual.toLocaleString('es-MX')} kWh anual`;
+                    generacionAnualDisplay.textContent = `${generacionRealAnual.toLocaleString('es-MX')} kWh/año`;
                     
                     const potenciaPico = (numeroDePaneles * 0.62).toFixed(2);
                     potenciaPicoDisplay.textContent = `${potenciaPico} kWp`;
-                }
 
-                const ahorroAnual = (gastoVerano * 6) + (gastoInvierno * 6);
-                ahorroAnualDisplay.textContent = `$${ahorroAnual.toLocaleString('es-MX', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+                    const ahorroAnual = (gastoVerano * 6) + (gastoInvierno * 6);
+                    ahorroAnualDisplay.textContent = `$${ahorroAnual.toLocaleString('es-MX', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+                }
             }
 
             function setupEventListeners(inputElement, sliderElement) {
@@ -249,11 +328,20 @@
                     recalcularTodo();
                 });
                 inputElement.addEventListener('input', (e) => {
-                    sliderElement.value = parseFromCurrency(e.target.value);
+                    const val = parseFromCurrency(e.target.value);
+                    if (val <= Number(sliderElement.max) && val >= Number(sliderElement.min)) {
+                       sliderElement.value = val;
+                    }
                     recalcularTodo();
                 });
                 inputElement.addEventListener('blur', (e) => {
-                    const parsedValue = parseFromCurrency(e.target.value);
+                    let parsedValue = parseFromCurrency(e.target.value);
+                    if(parsedValue > Number(sliderElement.max)) {
+                        parsedValue = Number(sliderElement.max);
+                    }
+                     if(parsedValue < Number(sliderElement.min)) {
+                        parsedValue = Number(sliderElement.min);
+                    }
                     e.target.value = formatToCurrency(parsedValue);
                     sliderElement.value = parsedValue;
                     recalcularTodo();
@@ -268,4 +356,3 @@
     </script>
 </body>
 </html>
-

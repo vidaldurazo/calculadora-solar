@@ -50,7 +50,7 @@
             animation: fadeInPanel 0.4s ease-out forwards;
             animation-delay: calc(var(--i) * 0.04s);
         }
-        #paneles-iconos-container, #background-roof-image {
+        #paneles-iconos-container, #background-roof-image, #large-system-image {
             transition: transform 0.5s ease-in-out, gap 0.3s ease-in-out;
         }
         @keyframes fadeInPanel {
@@ -102,8 +102,8 @@
                 <div class="relative w-full h-64 sm:h-80 rounded-lg overflow-hidden">
                     <!-- Interactive View (default) -->
                     <div id="interactive-view" class="" style="perspective: 800px; width: 100%; height: 100%;">
-                        <!-- INSTRUCCIÓN: Asegúrate de tener una imagen llamada "roof-texture.webp" en tu repositorio de GitHub -->
-                        <img id="background-roof-image" src="./roof-texture.webp" class="absolute top-0 left-0 w-full h-full object-cover" alt="Textura de tejas oscuras con cielo">
+                        <!-- INSTRUCCIÓN: Asegúrate de tener una imagen llamada "roof-texture.jpg" en tu repositorio de GitHub -->
+                        <img id="background-roof-image" src="./roof-texture.jpg" class="absolute top-0 left-0 w-full h-full object-cover" alt="Textura de tejas oscuras con cielo">
                         <div class="absolute top-0 left-0 w-full h-full bg-black/10"></div>
                         <div id="paneles-iconos-container" class="absolute top-[10%] left-[10%] w-[80%] h-[80%] grid grid-cols-6">
                             <!-- Panels are generated here -->
@@ -112,11 +112,8 @@
                      <!-- Static View (hidden by default) -->
                     <div id="static-view" class="hidden w-full h-full">
                         <!-- INSTRUCCIÓN: Asegúrate de tener una imagen llamada "large-system.jpg" en tu repositorio de GitHub -->
-                        <img src="./large-system.jpg" class="w-full h-full object-cover" alt="Sistema grande de paneles solares">
-                        <div class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center p-4">
-                            <p class="text-white text-lg font-semibold text-center">Visualización para sistemas grandes</p>
-                             <p class="text-white/80 text-sm text-center">Más de 36 paneles</p>
-                        </div>
+                        <img id="large-system-image" src="./large-system.jpg" class="w-full h-full object-cover" alt="Sistema grande de paneles solares">
+                        <div class="absolute inset-0 bg-black/40"></div>
                     </div>
                 </div>
 
@@ -171,6 +168,7 @@
             const backgroundRoofImage = document.getElementById('background-roof-image');
             const interactiveView = document.getElementById('interactive-view');
             const staticView = document.getElementById('static-view');
+            const largeSystemImage = document.getElementById('large-system-image');
 
 
             const ENERGIA_PANEL_ANUAL = 1100; // kWh produced by one panel in a year
@@ -278,7 +276,7 @@
 
                     interactiveView.classList.remove('hidden');
                     staticView.classList.add('hidden');
-                    panelesIconosContainer.style.transform = 'rotateX(73deg) rotateZ(0deg) translateY(-40px) scale(1.1)';
+                    panelesIconosContainer.style.transform = 'rotateX(73deg) rotateZ(0deg) translateY(-60px) scale(1.1)';
                     backgroundRoofImage.style.transform = 'scale(1.2)';
                 } else {
                     const numeroDePaneles = Math.ceil(consumoAnualKwh / ENERGIA_PANEL_ANUAL);
@@ -287,6 +285,17 @@
                     if (numeroDePaneles >= 37) {
                         interactiveView.classList.add('hidden');
                         staticView.classList.remove('hidden');
+
+                        let largeSystemScale;
+                        if (numeroDePaneles <= 50) {
+                            largeSystemScale = 1.2;
+                        } else if (numeroDePaneles <= 70) {
+                            largeSystemScale = 1.1;
+                        } else {
+                            largeSystemScale = 1.0;
+                        }
+                        largeSystemImage.style.transform = `scale(${largeSystemScale})`;
+
                     } else {
                         interactiveView.classList.remove('hidden');
                         staticView.classList.add('hidden');
@@ -307,7 +316,7 @@
                             panelScale = 0.9; bgScale = 1.0;
                         }
                         
-                        panelesIconosContainer.style.transform = `rotateX(73deg) rotateZ(0deg) translateY(-40px) scale(${panelScale})`;
+                        panelesIconosContainer.style.transform = `rotateX(73deg) rotateZ(0deg) translateY(-60px) scale(${panelScale})`;
                         backgroundRoofImage.style.transform = `scale(${bgScale})`;
                     }
 
@@ -356,8 +365,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-

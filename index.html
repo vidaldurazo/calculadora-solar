@@ -196,13 +196,13 @@
                     // CAMBIO 2: Lógica para hacer el tamaño del ícono dinámico.
                     let iconSize;
                     if (cantidad <= 5) {
-                        iconSize = 40; // Más grandes
+                        iconSize = 80; // Más grandes
                     } else if (cantidad <= 10) {
-                        iconSize = 32;
+                        iconSize = 60;
                     } else if (cantidad <= 20) {
-                        iconSize = 24;
+                        iconSize = 40;
                     } else { // 21 a 30
-                        iconSize = 18; // Más pequeños
+                        iconSize = 20; // Más pequeños
                     }
 
                     // Se inyecta el tamaño dinámico en el SVG
@@ -268,3 +268,4 @@
     </script>
 </body>
 </html>
+

@@ -9,11 +9,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display-swap" rel="stylesheet">
     <style>
+        html, body {
+            overflow: hidden;
+        }
         body {
             font-family: 'Inter', sans-serif;
             background-color: transparent;
-            /* SOLUCIÓN DEFINITIVA: Oculta cualquier desbordamiento que cause la barra de scroll. */
-            overflow: hidden;
         }
         input[type=range] {
             -webkit-appearance: none;
@@ -69,29 +70,29 @@
         <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-10">
             
             <!-- Header -->
-            <div class="text-center mb-8">
+            <div class="text-center mb-4 sm:mb-8">
                 <h1 class="text-3xl sm:text-4xl font-bold text-gray-800">Calculadora Solar</h1>
-                <p class="text-gray-500 mt-2">Estima el número de paneles solares que necesitas para tu hogar.</p>
+                <p class="text-gray-500 mt-2 text-sm sm:text-base">Estima el número de paneles solares que necesitas para tu hogar.</p>
             </div>
 
             <!-- Calculator Inputs -->
-            <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="grid md:grid-cols-2 gap-6 mb-6 sm:mb-8">
                 <!-- Verano Input -->
                 <div class="bg-orange-50 rounded-xl p-4 border border-orange-200">
-                    <label for="gasto-verano-input" class="block text-lg font-medium text-gray-700 mb-2">Gasto mensual en <strong>Verano</strong> ☀️ <span class="text-sm font-normal">(May-Oct)</span></label>
+                    <label for="gasto-verano-input" class="block text-base sm:text-lg font-medium text-gray-700 mb-2">Gasto mensual en <strong>Verano</strong> ☀️ <span class="text-sm font-normal">(May-Oct)</span></label>
                     <div class="flex items-center space-x-2">
-                        <span class="text-xl font-bold text-orange-600">$</span>
-                        <input type="text" id="gasto-verano-input" class="text-xl font-bold text-orange-600 w-full bg-transparent p-2 text-center" value="4,000.00" inputmode="decimal">
+                        <span class="text-lg sm:text-xl font-bold text-orange-600">$</span>
+                        <input type="text" id="gasto-verano-input" class="text-lg sm:text-xl font-bold text-orange-600 w-full bg-transparent p-2 text-center" value="4,000.00" inputmode="decimal">
                     </div>
                     <input type="range" id="gasto-verano-slider" class="w-full mt-2" value="4000" min="100" max="25000" step="50">
                     <span id="consumo-kwh-verano" class="text-gray-500 font-medium text-sm block mt-1 text-center">(~1,288 kWh)</span>
                 </div>
                  <!-- Invierno Input -->
                 <div class="bg-sky-50 rounded-xl p-4 border border-sky-200">
-                    <label for="gasto-invierno-input" class="block text-lg font-medium text-gray-700 mb-2">Gasto mensual en <strong>Invierno</strong> ❄️ <span class="text-sm font-normal">(Nov-Abr)</span></label>
+                    <label for="gasto-invierno-input" class="block text-base sm:text-lg font-medium text-gray-700 mb-2">Gasto mensual en <strong>Invierno</strong> ❄️ <span class="text-sm font-normal">(Nov-Abr)</span></label>
                     <div class="flex items-center space-x-2">
-                        <span class="text-xl font-bold text-sky-600">$</span>
-                        <input type="text" id="gasto-invierno-input" class="text-xl font-bold text-sky-600 w-full bg-transparent p-2 text-center" value="800.00" inputmode="decimal">
+                        <span class="text-lg sm:text-xl font-bold text-sky-600">$</span>
+                        <input type="text" id="gasto-invierno-input" class="text-lg sm:text-xl font-bold text-sky-600 w-full bg-transparent p-2 text-center" value="800.00" inputmode="decimal">
                     </div>
                     <input type="range" id="gasto-invierno-slider" class="w-full mt-2" value="800" min="100" max="25000" step="50">
                     <span id="consumo-kwh-invierno" class="text-gray-500 font-medium text-sm block mt-1 text-center">(~259 kWh)</span>
@@ -101,10 +102,9 @@
             <!-- Results -->
             <div class="bg-gray-50 rounded-xl border p-4 sm:p-6 grid md:grid-cols-2 gap-6 items-center">
                 <!-- Visual Column -->
-                <div class="relative w-full h-64 sm:h-80 rounded-lg overflow-hidden">
+                <div class="relative w-full h-48 sm:h-80 rounded-lg overflow-hidden">
                     <!-- Interactive View (default) -->
                     <div id="interactive-view" class="" style="perspective: 800px; width: 100%; height: 100%;">
-                        <!-- INSTRUCCIÓN: Asegúrate de tener una imagen llamada "roof-texture.jpg" en tu repositorio de GitHub -->
                         <img id="background-roof-image" src="./roof-texture.jpg" class="absolute top-0 left-0 w-full h-full object-cover" alt="Textura de tejas oscuras con cielo">
                         <div class="absolute top-0 left-0 w-full h-full bg-black/10"></div>
                         <div id="paneles-iconos-container" class="absolute top-[10%] left-[10%] w-[80%] h-[80%] grid grid-cols-6">
@@ -113,7 +113,6 @@
                     </div>
                      <!-- Static View (hidden by default) -->
                     <div id="static-view" class="hidden w-full h-full">
-                        <!-- INSTRUCCIÓN: Asegúrate de tener una imagen llamada "large-system.jpg" en tu repositorio de GitHub -->
                         <img id="large-system-image" src="./large-system.jpg" class="w-full h-full object-cover" alt="Sistema grande de paneles solares">
                         <div class="absolute inset-0 bg-black/40"></div>
                     </div>
@@ -122,23 +121,23 @@
                 <!-- Data Column -->
                 <div class="text-center md:text-left">
                     <p class="text-gray-600 font-medium">Número estimado de paneles que necesitas:</p>
-                    <div class="flex items-baseline justify-center md:justify-start gap-3 my-2">
-                        <span id="numero-paneles" class="text-7xl font-bold text-blue-600" style="line-height: 1;">12</span>
-                        <span class="text-2xl font-semibold text-gray-700">paneles</span>
+                    <div class="flex items-baseline justify-center md:justify-start gap-2 sm:gap-3 my-2">
+                        <span id="numero-paneles" class="text-6xl sm:text-7xl font-bold text-blue-600" style="line-height: 1;">12</span>
+                        <span class="text-xl sm:text-2xl font-semibold text-gray-700">paneles</span>
                     </div>
                      <div class="text-sm text-gray-500 mb-4">
                         <span id="generacion-anual">13,200 kWh/año</span> | 
                         <span id="potencia-pico">7.44 kWp</span>
                     </div>
-                    <div class="bg-green-100 text-green-800 rounded-lg p-4">
-                        <p class="font-medium">Ahorro anual estimado de:</p>
-                        <strong id="ahorro-anual" class="block text-4xl mt-1">$28,800</strong>
+                    <div class="bg-green-100 text-green-800 rounded-lg p-3 sm:p-4">
+                        <p class="font-medium text-sm sm:text-base">Ahorro anual estimado de:</p>
+                        <strong id="ahorro-anual" class="block text-3xl sm:text-4xl mt-1">$28,800</strong>
                     </div>
                 </div>
             </div>
 
             <!-- Disclaimer -->
-            <div class="text-center mt-8">
+            <div class="text-center mt-6 sm:mt-8">
                  <div class="text-xs text-gray-400 space-y-1">
                      <p>*Estimación para fines informativos.</p>
                      <p>Cálculos basados en la tarifa 1F de CFE en 2025.</p>
@@ -229,7 +228,6 @@
 
                 const panelsToRender = Math.min(cantidad, 36); 
 
-                // Dynamic gap logic
                 if (panelsToRender <= 12) {
                     panelesIconosContainer.style.gap = '4px';
                 } else {

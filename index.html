@@ -1,379 +1,381 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- Hotjar Tracking Code for Calculadora solar -->
-    <script>
-        (function(h,o,t,j,a,r){
-            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-            h._hjSettings={hjid:6526830,hjsv:6};
-            a=o.getElementsByTagName('head')[0];
-            r=o.createElement('script');r.async=1;
-            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-            a.appendChild(r);
-        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Solar</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display-swap" rel="stylesheet">
-    <style>
-        html, body {
-            overflow: hidden;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: transparent;
-        }
-        input[type=range] {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 100%;
-            cursor: pointer;
-            outline: none;
-            border-radius: 9999px;
-            height: 8px;
-            background: #e2e8f0;
-        }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            height: 24px;
-            width: 24px;
-            background-color: #ffffff;
-            border-radius: 50%;
-            border: 2px solid #3b82f6;
-            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-            transition: background-color 0.2s ease-in-out;
-        }
-        input[type=range]::-moz-range-thumb {
-            height: 24px;
-            width: 24px;
-            background-color: #ffffff;
-            border-radius: 50%;
-            border: 2px solid #3b82f6;
-            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-            transition: background-color 0.2s ease-in-out;
-        }
-        .panel-wrapper {
-            opacity: 0;
-            transform-style: preserve-3d;
-            transform: translateY(20px);
-            animation: fadeInPanel 0.4s ease-out forwards;
-            animation-delay: calc(var(--i) * 0.04s);
-        }
-        #paneles-iconos-container, #background-roof-image, #large-system-image {
-            transition: transform 0.5s ease-in-out, gap 0.3s ease-in-out;
-        }
-        @keyframes fadeInPanel {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+  <!-- Hotjar Tracking Code for Calculadora solar -->
+  <script>
+    (function(h,o,t,j,a,r){
+      h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+      h._hjSettings={hjid:6526830,hjsv:6};
+      a=o.getElementsByTagName('head')[0];
+      r=o.createElement('script');r.async=1;
+      r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Calculadora Solar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- corrige el parámetro display -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    html, body { overflow: hidden; }
+    body { font-family: 'Inter', sans-serif; background-color: transparent; }
+
+    input[type=range]{
+      -webkit-appearance:none; appearance:none; width:100%;
+      cursor:pointer; outline:none; border-radius:9999px; height:8px; background:#e2e8f0;
+    }
+    input[type=range]::-webkit-slider-thumb{
+      -webkit-appearance:none; appearance:none; height:24px; width:24px; background:#fff;
+      border-radius:50%; border:2px solid #3b82f6;
+      box-shadow:0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+      transition:background-color .2s ease-in-out;
+    }
+    input[type=range]::-moz-range-thumb{
+      height:24px; width:24px; background:#fff; border-radius:50%; border:2px solid #3b82f6;
+      box-shadow:0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+      transition:background-color .2s ease-in-out;
+    }
+    .panel-wrapper{ opacity:0; transform-style:preserve-3d; transform:translateY(20px);
+      animation:fadeInPanel .4s ease-out forwards; animation-delay:calc(var(--i)*.04s); }
+    #paneles-iconos-container, #background-roof-image, #large-system-image{
+      transition:transform .5s ease-in-out, gap .3s ease-in-out;
+    }
+    @keyframes fadeInPanel { to{ opacity:1; transform:translateY(0); } }
+  </style>
 </head>
+
 <body class="flex items-center justify-center">
+  <div class="w-full max-w-3xl mx-auto px-4">
+    <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-10">
+      <!-- Header -->
+      <div class="text-center mb-4 sm:mb-8">
+        <h1 class="text-2xl sm:text-4xl font-bold text-gray-800">Calculadora Solar</h1>
+        <p class="text-gray-500 mt-2 text-sm sm:text-base">Estima el número de paneles que necesitas.</p>
+      </div>
 
-    <div class="w-full max-w-3xl mx-auto px-4"> 
-        <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-10">
-            
-            <!-- Header -->
-            <div class="text-center mb-4 sm:mb-8">
-                <h1 class="text-2xl sm:text-4xl font-bold text-gray-800">Calculadora Solar</h1>
-                <p class="text-gray-500 mt-2 text-sm sm:text-base">Estima el número de paneles que necesitas.</p>
-            </div>
-
-            <!-- Calculator Inputs: Now side-by-side on all screens -->
-            <div class="grid grid-cols-2 gap-4 mb-4 sm:mb-8">
-                <!-- Verano Input -->
-                <div class="bg-orange-50 rounded-xl p-3 border border-orange-200">
-                    <label for="gasto-verano-input" class="block text-sm sm:text-lg font-medium text-gray-700 mb-1">Gasto en <strong>Verano</strong> ☀️</label>
-                    <div class="flex items-center space-x-1 sm:space-x-2">
-                        <span class="text-base sm:text-xl font-bold text-orange-600">$</span>
-                        <input type="text" id="gasto-verano-input" class="text-base sm:text-xl font-bold text-orange-600 w-full bg-transparent p-1 text-center" value="4,000.00" inputmode="decimal">
-                    </div>
-                    <input type="range" id="gasto-verano-slider" class="w-full mt-2" value="4000" min="100" max="25000" step="50">
-                    <span id="consumo-kwh-verano" class="text-gray-500 font-medium text-xs sm:text-sm block mt-1 text-center">(~1,288 kWh)</span>
-                </div>
-                 <!-- Invierno Input -->
-                <div class="bg-sky-50 rounded-xl p-3 border border-sky-200">
-                    <label for="gasto-invierno-input" class="block text-sm sm:text-lg font-medium text-gray-700 mb-1">Gasto en <strong>Invierno</strong> ❄️</label>
-                    <div class="flex items-center space-x-1 sm:space-x-2">
-                        <span class="text-base sm:text-xl font-bold text-sky-600">$</span>
-                        <input type="text" id="gasto-invierno-input" class="text-base sm:text-xl font-bold text-sky-600 w-full bg-transparent p-1 text-center" value="800.00" inputmode="decimal">
-                    </div>
-                    <input type="range" id="gasto-invierno-slider" class="w-full mt-2" value="800" min="100" max="25000" step="50">
-                    <span id="consumo-kwh-invierno" class="text-gray-500 font-medium text-xs sm:text-sm block mt-1 text-center">(~259 kWh)</span>
-                </div>
-            </div>
-
-            <!-- Results -->
-            <div class="bg-gray-50 rounded-xl border p-4 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-                <!-- Visual Column -->
-                <div class="relative w-full h-40 sm:h-80 rounded-lg overflow-hidden">
-                    <!-- Interactive View (default) -->
-                    <div id="interactive-view" class="" style="perspective: 800px; width: 100%; height: 100%;">
-                        <img id="background-roof-image" src="./roof-texture.jpg" class="absolute top-0 left-0 w-full h-full object-cover" alt="Textura de tejas oscuras con cielo">
-                        <div class="absolute top-0 left-0 w-full h-full bg-black/10"></div>
-                        <div id="paneles-iconos-container" class="absolute top-[10%] left-[10%] w-[80%] h-[80%] grid grid-cols-6">
-                            <!-- Panels are generated here -->
-                        </div>
-                    </div>
-                     <!-- Static View (hidden by default) -->
-                    <div id="static-view" class="hidden w-full h-full">
-                        <img id="large-system-image" src="./large-system.jpg" class="w-full h-full object-cover" alt="Sistema grande de paneles solares">
-                        <div class="absolute inset-0 bg-black/40"></div>
-                    </div>
-                </div>
-
-                <!-- Data Column -->
-                <div class="text-center md:text-left">
-                    <p class="text-gray-600 font-medium text-sm sm:text-base">Paneles que necesitas:</p>
-                    <div class="flex items-baseline justify-center md:justify-start gap-2 sm:gap-3 my-1">
-                        <span id="numero-paneles" class="text-5xl sm:text-7xl font-bold text-blue-600" style="line-height: 1;">12</span>
-                        <span class="text-lg sm:text-2xl font-semibold text-gray-700">paneles</span>
-                    </div>
-                     <div class="text-xs sm:text-sm text-gray-500 mb-3">
-                        <span id="generacion-anual">13,200 kWh/año</span> | 
-                        <span id="potencia-pico">7.44 kWp</span>
-                    </div>
-                    <div class="bg-green-100 text-green-800 rounded-lg p-3">
-                        <p class="font-medium text-sm sm:text-base">Ahorro anual estimado:</p>
-                        <strong id="ahorro-anual" class="block text-2xl sm:text-4xl mt-1">$28,800</strong>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Disclaimer -->
-            <div class="text-center mt-4 sm:mt-8">
-                 <div class="text-xs text-gray-400 space-y-1">
-                     <p>*Estimación para fines informativos.</p>
-                     <p>Cálculos basados en la tarifa 1F de CFE en 2025.</p>
-                     <p>Considerando paneles JA Solar de 620 W.</p>
-                     <p>Este instrumento no sustituye una cotización formal ni un estudio energético.</p>
-                 </div>
-                 <p class="text-xs text-gray-500 mt-3 pt-2 border-t border-gray-200 inline-block">
-                     Desarrollado por <a href="https://www.rennergy.mx" target="_blank" class="font-semibold text-blue-600 hover:underline">Rennergy</a>
-                 </p>
-            </div>
-
+      <!-- Inputs -->
+      <div class="grid grid-cols-2 gap-4 mb-4 sm:mb-8">
+        <!-- Verano -->
+        <div class="bg-orange-50 rounded-xl p-3 border border-orange-200">
+          <label for="gasto-verano-input" class="block text-sm sm:text-lg font-medium text-gray-700 mb-1">
+            Gasto en <strong>Verano</strong> ☀️
+          </label>
+          <div class="flex items-center space-x-1 sm:space-x-2">
+            <span class="text-base sm:text-xl font-bold text-orange-600">$</span>
+            <input id="gasto-verano-input" type="text"
+                   class="text-base sm:text-xl font-bold text-orange-600 w-full bg-transparent p-1 text-center"
+                   value="4,000.00" inputmode="decimal" />
+          </div>
+          <input id="gasto-verano-slider" class="w-full mt-2" type="range" value="4000" min="100" max="25000" step="50" />
+          <span id="consumo-kwh-verano" class="text-gray-500 font-medium text-xs sm:text-sm block mt-1 text-center">
+            (~1,288 kWh)
+          </span>
         </div>
+
+        <!-- Invierno -->
+        <div class="bg-sky-50 rounded-xl p-3 border border-sky-200">
+          <label for="gasto-invierno-input" class="block text-sm sm:text-lg font-medium text-gray-700 mb-1">
+            Gasto en <strong>Invierno</strong> ❄️
+          </label>
+          <div class="flex items-center space-x-1 sm:space-x-2">
+            <span class="text-base sm:text-xl font-bold text-sky-600">$</span>
+            <input id="gasto-invierno-input" type="text"
+                   class="text-base sm:text-xl font-bold text-sky-600 w-full bg-transparent p-1 text-center"
+                   value="800.00" inputmode="decimal" />
+          </div>
+          <input id="gasto-invierno-slider" class="w-full mt-2" type="range" value="800" min="100" max="25000" step="50" />
+          <span id="consumo-kwh-invierno" class="text-gray-500 font-medium text-xs sm:text-sm block mt-1 text-center">
+            (~259 kWh)
+          </span>
+        </div>
+      </div>
+
+      <!-- Resultados -->
+      <div class="bg-gray-50 rounded-xl border p-4 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+        <!-- Visual -->
+        <div class="relative w-full h-40 sm:h-80 rounded-lg overflow-hidden">
+          <!-- Interactivo -->
+          <div id="interactive-view" style="perspective:800px; width:100%; height:100%;">
+            <img id="background-roof-image" src="./roof-texture.jpg"
+                 class="absolute top-0 left-0 w-full h-full object-cover" alt="Textura de tejas oscuras con cielo">
+            <div class="absolute top-0 left-0 w-full h-full bg-black/10"></div>
+            <div id="paneles-iconos-container" class="absolute top-[10%] left-[10%] w-[80%] h-[80%] grid grid-cols-6">
+              <!-- Panels generated here -->
+            </div>
+          </div>
+          <!-- Estático -->
+          <div id="static-view" class="hidden w-full h-full">
+            <img id="large-system-image" src="./large-system.jpg" class="w-full h-full object-cover" alt="Sistema grande">
+            <div class="absolute inset-0 bg-black/40"></div>
+          </div>
+        </div>
+
+        <!-- Datos -->
+        <div class="text-center md:text-left">
+          <p class="text-gray-600 font-medium text-sm sm:text-base">Paneles que necesitas:</p>
+          <div class="flex items-baseline justify-center md:justify-start gap-2 sm:gap-3 my-1">
+            <span id="numero-paneles" class="text-5xl sm:text-7xl font-bold text-blue-600" style="line-height:1;">12</span>
+            <span class="text-lg sm:text-2xl font-semibold text-gray-700">paneles</span>
+          </div>
+          <div class="text-xs sm:text-sm text-gray-500 mb-3">
+            <span id="generacion-anual">13,200 kWh/año</span> |
+            <span id="potencia-pico">7.44 kWp</span>
+          </div>
+          <div class="bg-green-100 text-green-800 rounded-lg p-3">
+            <p class="font-medium text-sm sm:text-base">Ahorro anual estimado:</p>
+            <strong id="ahorro-anual" class="block text-2xl sm:text-4xl mt-1">$28,800</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Disclaimer -->
+      <div class="text-center mt-4 sm:mt-8">
+        <div class="text-xs text-gray-400 space-y-1">
+          <p>*Estimación para fines informativos.</p>
+          <p>Cálculos basados en la tarifa 1F de CFE en 2025.</p>
+          <p>Considerando paneles JA Solar de 620 W.</p>
+          <p>Este instrumento no sustituye una cotización formal ni un estudio energético.</p>
+        </div>
+        <p class="text-xs text-gray-500 mt-3 pt-2 border-t border-gray-200 inline-block">
+          Desarrollado por <a href="https://www.rennergy.mx" target="_blank"
+          class="font-semibold text-blue-600 hover:underline">Rennergy</a>
+        </p>
+      </div>
     </div>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+  </div>
 
-            const gastoVeranoInput = document.getElementById('gasto-verano-input');
-            const gastoVeranoSlider = document.getElementById('gasto-verano-slider');
-            const gastoInviernoInput = document.getElementById('gasto-invierno-input');
-            const gastoInviernoSlider = document.getElementById('gasto-invierno-slider');
-            const consumoKwhVeranoDisplay = document.getElementById('consumo-kwh-verano');
-            const consumoKwhInviernoDisplay = document.getElementById('consumo-kwh-invierno');
-            const numeroPanelesDisplay = document.getElementById('numero-paneles');
-            const ahorroAnualDisplay = document.getElementById('ahorro-anual');
-            const panelesIconosContainer = document.getElementById('paneles-iconos-container');
-            const generacionAnualDisplay = document.getElementById('generacion-anual');
-            const potenciaPicoDisplay = document.getElementById('potencia-pico');
-            const backgroundRoofImage = document.getElementById('background-roof-image');
-            const interactiveView = document.getElementById('interactive-view');
-            const staticView = document.getElementById('static-view');
-            const largeSystemImage = document.getElementById('large-system-image');
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
 
+      const gastoVeranoInput = document.getElementById('gasto-verano-input');
+      const gastoVeranoSlider = document.getElementById('gasto-verano-slider');
+      const gastoInviernoInput = document.getElementById('gasto-invierno-input');
+      const gastoInviernoSlider = document.getElementById('gasto-invierno-slider');
+      const consumoKwhVeranoDisplay = document.getElementById('consumo-kwh-verano');
+      const consumoKwhInviernoDisplay = document.getElementById('consumo-kwh-invierno');
+      const numeroPanelesDisplay = document.getElementById('numero-paneles');
+      const ahorroAnualDisplay = document.getElementById('ahorro-anual');
+      const panelesIconosContainer = document.getElementById('paneles-iconos-container');
+      const generacionAnualDisplay = document.getElementById('generacion-anual');
+      const potenciaPicoDisplay = document.getElementById('potencia-pico');
+      const backgroundRoofImage = document.getElementById('background-roof-image');
+      const interactiveView = document.getElementById('interactive-view');
+      const staticView = document.getElementById('static-view');
+      const largeSystemImage = document.getElementById('large-system-image');
 
-            const ENERGIA_PANEL_ANUAL = 1100; // kWh produced by one panel in a year
-            
-            const TARIFAS = {
-                invierno: [ // Nov-Apr
-                    { limiteKwh: 75,  costo: 1.081 },
-                    { limiteKwh: 125, costo: 1.3125 },
-                    { limiteKwh: Infinity, costo: 3.840166667 }
-                ],
-                verano: [ // May-Oct
-                    { limiteKwh: 300,  costo: 0.8105 },
-                    { limiteKwh: 900,  costo: 1.006 },
-                    { limiteKwh: 1300, costo: 2.445716667 },
-                    { limiteKwh: Infinity, costo: 3.86805 }
-                ]
-            };
+      const ENERGIA_PANEL_ANUAL = 1100; // kWh anuales por panel
 
-            function formatToCurrency(value) {
-                const num = Number(value);
-                if (isNaN(num)) return '0.00';
-                return new Intl.NumberFormat('es-MX', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                }).format(num);
-            }
+      const TARIFAS = {
+        invierno: [
+          { limiteKwh: 75,  costo: 1.081 },
+          { limiteKwh: 125, costo: 1.3125 },
+          { limiteKwh: Infinity, costo: 3.840166667 }
+        ],
+        verano: [
+          { limiteKwh: 300,  costo: 0.8105 },
+          { limiteKwh: 900,  costo: 1.006 },
+          { limiteKwh: 1300, costo: 2.445716667 },
+          { limiteKwh: Infinity, costo: 3.86805 }
+        ]
+      };
 
-            function parseFromCurrency(value) {
-                const cleanValue = String(value).replace(/[^0-9,.]/g, '').replace(',', '');
-                return parseFloat(cleanValue) || 0;
-            }
+      function formatToCurrency(value){
+        const num = Number(value);
+        if (isNaN(num)) return '0.00';
+        return new Intl.NumberFormat('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2}).format(num);
+      }
+      function parseFromCurrency(value){
+        const clean = String(value).replace(/[^0-9,.]/g,'').replace(',','');
+        return parseFloat(clean) || 0;
+      }
 
-            function calcularKwhDesdeGasto(gastoMensual, temporada) {
-                if (gastoMensual <= 0) return 0;
-                const tarifasTemporada = TARIFAS[temporada];
-                let kwhCalculados = 0, gastoAcumulado = 0, kwhAcumulados = 0;
-                for (const tramo of tarifasTemporada) {
-                    const kwhEnTramoAnterior = kwhAcumulados;
-                    const kwhEnTramoActual = tramo.limiteKwh - kwhEnTramoAnterior;
-                    const costoTramo = kwhEnTramoActual * tramo.costo;
-                    if (gastoMensual > gastoAcumulado + costoTramo && tramo.limiteKwh !== Infinity) {
-                        gastoAcumulado += costoTramo;
-                        kwhAcumulados += kwhEnTramoActual;
-                    } else {
-                        const gastoRestante = gastoMensual - gastoAcumulado;
-                        kwhCalculados = kwhAcumulados + (gastoRestante / tramo.costo);
-                        return Math.round(kwhCalculados);
-                    }
-                }
-                return Math.round(kwhCalculados);
-            }
-            
-            function actualizarIconosPaneles(cantidad) {
-                panelesIconosContainer.innerHTML = '';
-                if (cantidad <= 0) return;
+      function calcularKwhDesdeGasto(gastoMensual, temporada){
+        if (gastoMensual <= 0) return 0;
+        const tarifasTemporada = TARIFAS[temporada];
+        let kwhCalculados = 0, gastoAcumulado = 0, kwhAcumulados = 0;
+        for (const tramo of tarifasTemporada){
+          const kwhTramoAnterior = kwhAcumulados;
+          const kwhTramoActual  = tramo.limiteKwh - kwhTramoAnterior;
+          const costoTramo      = kwhTramoActual * tramo.costo;
 
-                const panelsToRender = Math.min(cantidad, 36); 
+          if (gastoMensual > gastoAcumulado + costoTramo && tramo.limiteKwh !== Infinity){
+            gastoAcumulado += costoTramo;
+            kwhAcumulados  += kwhTramoActual;
+          } else {
+            const restante = gastoMensual - gastoAcumulado;
+            kwhCalculados = kwhAcumulados + (restante / tramo.costo);
+            return Math.round(kwhCalculados);
+          }
+        }
+        return Math.round(kwhCalculados);
+      }
 
-                if (panelsToRender <= 12) {
-                    panelesIconosContainer.style.gap = '4px';
-                } else {
-                    panelesIconosContainer.style.gap = '8px';
-                }
+      function actualizarIconosPaneles(cantidad){
+        panelesIconosContainer.innerHTML = '';
+        if (cantidad <= 0) return;
+        const panelsToRender = Math.min(cantidad, 36);
 
-                for (let i = 0; i < panelsToRender; i++) {
-                    const panelSvg = `
-                        <div class="panel-wrapper" style="--i:${i}">
-                            <svg class="w-full h-full" viewBox="0 0 40 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <linearGradient id="panelGradient" x1="0" y1="0" x2="1" y2="1">
-                                        <stop offset="0%" stop-color="#4A90E2"/>
-                                        <stop offset="100%" stop-color="#1E3A8A"/>
-                                    </linearGradient>
-                                    <linearGradient id="metalFrame" x1="0" y1="0" x2="1" y2="1">
-                                        <stop offset="0%" stop-color="#D1D5DB"/>
-                                        <stop offset="100%" stop-color="#9CA3AF"/>
-                                    </linearGradient>
-                                </defs>
-                                <rect width="40" height="60" rx="3" fill="url(#metalFrame)"/>
-                                <rect x="2" y="2" width="36" height="56" rx="1" fill="url(#panelGradient)"/>
-                                <rect x="0.5" y="0.5" width="39" height="59" rx="2.5" stroke="black" stroke-opacity="0.3"/>
-                                <path d="M20 2 V58 M2 16 H38 M2 30 H38 M2 44 H38" stroke="white" stroke-opacity="0.15" stroke-width="0.75"/>
-                            </svg>
-                        </div>`;
-                    panelesIconosContainer.innerHTML += panelSvg;
-                }
-            }
-            
-            function recalcularTodo() {
-                const gastoVerano = parseFromCurrency(gastoVeranoInput.value);
-                const gastoInvierno = parseFromCurrency(gastoInviernoInput.value);
-                const kwhVerano = calcularKwhDesdeGasto(gastoVerano, 'verano');
-                const kwhInvierno = calcularKwhDesdeGasto(gastoInvierno, 'invierno');
-                consumoKwhVeranoDisplay.textContent = `(~${kwhVerano.toLocaleString('es-MX')} kWh)`;
-                consumoKwhInviernoDisplay.textContent = `(~${kwhInvierno.toLocaleString('es-MX')} kWh)`;
-                const consumoAnualKwh = (kwhVerano * 6) + (kwhInvierno * 6);
-                
-                if (consumoAnualKwh <= 0) {
-                    numeroPanelesDisplay.textContent = 0;
-                    actualizarIconosPaneles(0);
-                    generacionAnualDisplay.textContent = '0 kWh/año';
-                    potenciaPicoDisplay.textContent = '0.00 kWp';
-                    ahorroAnualDisplay.textContent = '$0';
+        panelesIconosContainer.style.gap = panelsToRender <= 12 ? '4px' : '8px';
 
-                    interactiveView.classList.remove('hidden');
-                    staticView.classList.add('hidden');
-                    panelesIconosContainer.style.transform = 'rotateX(73deg) rotateZ(0deg) translateY(-60px) scale(1.1)';
-                    backgroundRoofImage.style.transform = 'scale(1.2)';
-                } else {
-                    const numeroDePaneles = Math.ceil(consumoAnualKwh / ENERGIA_PANEL_ANUAL);
-                    numeroPanelesDisplay.textContent = numeroDePaneles;
-                    
-                    if (numeroDePaneles >= 37) {
-                        interactiveView.classList.add('hidden');
-                        staticView.classList.remove('hidden');
+        for (let i=0;i<panelsToRender;i++){
+          const panelSvg = `
+            <div class="panel-wrapper" style="--i:${i}">
+              <svg class="w-full h-full" viewBox="0 0 40 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="panelGradient" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#4A90E2"/>
+                    <stop offset="100%" stop-color="#1E3A8A"/>
+                  </linearGradient>
+                  <linearGradient id="metalFrame" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#D1D5DB"/>
+                    <stop offset="100%" stop-color="#9CA3AF"/>
+                  </linearGradient>
+                </defs>
+                <rect width="40" height="60" rx="3" fill="url(#metalFrame)"/>
+                <rect x="2" y="2" width="36" height="56" rx="1" fill="url(#panelGradient)"/>
+                <rect x="0.5" y="0.5" width="39" height="59" rx="2.5" stroke="black" stroke-opacity="0.3"/>
+                <path d="M20 2 V58 M2 16 H38 M2 30 H38 M2 44 H38" stroke="white" stroke-opacity="0.15" stroke-width="0.75"/>
+              </svg>
+            </div>`;
+          panelesIconosContainer.insertAdjacentHTML('beforeend', panelSvg);
+        }
+      }
 
-                        let largeSystemScale;
-                        if (numeroDePaneles <= 50) {
-                            largeSystemScale = 1.2;
-                        } else if (numeroDePaneles <= 70) {
-                            largeSystemScale = 1.1;
-                        } else {
-                            largeSystemScale = 1.0;
-                        }
-                        largeSystemImage.style.transform = `scale(${largeSystemScale})`;
+      /* ====== NUEVO: utilidades para enviar al padre (GHL) ====== */
+      const PARENT_ORIGIN = "https://crm.rennergy.mx"; // cambia si usas otro dominio
+      let sendTimer = null;
+      function sendToParent(payload){
+        clearTimeout(sendTimer);
+        sendTimer = setTimeout(() => {
+          window.parent.postMessage(
+            { type: "SOLAR_CALC_RESULT", payload },
+            PARENT_ORIGIN // usa "*" solo para pruebas
+          );
+        }, 250);
+      }
+      /* =========================================================== */
 
-                    } else {
-                        interactiveView.classList.remove('hidden');
-                        staticView.classList.add('hidden');
-                        actualizarIconosPaneles(numeroDePaneles);
-                        
-                        let panelScale, bgScale;
-                        if (numeroDePaneles <= 6) {
-                            panelScale = 1.1; bgScale = 1.2;
-                        } else if (numeroDePaneles <= 12) {
-                            panelScale = 1.06; bgScale = 1.16;
-                        } else if (numeroDePaneles <= 18) {
-                            panelScale = 1.02; bgScale = 1.12;
-                        } else if (numeroDePaneles <= 24) {
-                            panelScale = 0.98; bgScale = 1.08;
-                        } else if (numeroDePaneles <= 30) {
-                            panelScale = 0.94; bgScale = 1.04;
-                        } else { // 31-36
-                            panelScale = 0.9; bgScale = 1.0;
-                        }
-                        
-                        panelesIconosContainer.style.transform = `rotateX(73deg) rotateZ(0deg) translateY(-60px) scale(${panelScale})`;
-                        backgroundRoofImage.style.transform = `scale(${bgScale})`;
-                    }
+      function recalcularTodo(){
+        const gastoVerano  = parseFromCurrency(gastoVeranoInput.value);
+        const gastoInvierno= parseFromCurrency(gastoInviernoInput.value);
 
-                    const generacionRealAnual = numeroDePaneles * ENERGIA_PANEL_ANUAL;
-                    generacionAnualDisplay.textContent = `${generacionRealAnual.toLocaleString('es-MX')} kWh/año`;
-                    
-                    const potenciaPico = (numeroDePaneles * 0.62).toFixed(2);
-                    potenciaPicoDisplay.textContent = `${potenciaPico} kWp`;
+        const kwhVerano   = calcularKwhDesdeGasto(gastoVerano,'verano');
+        const kwhInvierno = calcularKwhDesdeGasto(gastoInvierno,'invierno');
 
-                    const ahorroAnual = (gastoVerano * 6) + (gastoInvierno * 6);
-                    ahorroAnualDisplay.textContent = `$${ahorroAnual.toLocaleString('es-MX', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
-                }
-            }
+        consumoKwhVeranoDisplay.textContent  = `(~${kwhVerano.toLocaleString('es-MX')} kWh)`;
+        consumoKwhInviernoDisplay.textContent= `(~${kwhInvierno.toLocaleString('es-MX')} kWh)`;
 
-            function setupEventListeners(inputElement, sliderElement) {
-                sliderElement.addEventListener('input', (e) => {
-                    inputElement.value = formatToCurrency(e.target.value);
-                    recalcularTodo();
-                });
-                inputElement.addEventListener('input', (e) => {
-                    const val = parseFromCurrency(e.target.value);
-                    if (val <= Number(sliderElement.max) && val >= Number(sliderElement.min)) {
-                       sliderElement.value = val;
-                    }
-                    recalcularTodo();
-                });
-                inputElement.addEventListener('blur', (e) => {
-                    let parsedValue = parseFromCurrency(e.target.value);
-                    if(parsedValue > Number(sliderElement.max)) {
-                        parsedValue = Number(sliderElement.max);
-                    }
-                     if(parsedValue < Number(sliderElement.min)) {
-                        parsedValue = Number(sliderElement.min);
-                    }
-                    e.target.value = formatToCurrency(parsedValue);
-                    sliderElement.value = parsedValue;
-                    recalcularTodo();
-                });
-            }
+        const consumoAnualKwh = (kwhVerano * 6) + (kwhInvierno * 6);
 
-            setupEventListeners(gastoVeranoInput, gastoVeranoSlider);
-            setupEventListeners(gastoInviernoInput, gastoInviernoSlider);
+        if (consumoAnualKwh <= 0){
+          numeroPanelesDisplay.textContent = 0;
+          actualizarIconosPaneles(0);
+          generacionAnualDisplay.textContent = '0 kWh/año';
+          potenciaPicoDisplay.textContent = '0.00 kWp';
+          ahorroAnualDisplay.textContent = '$0';
 
-            recalcularTodo();
+          interactiveView.classList.remove('hidden');
+          staticView.classList.add('hidden');
+          panelesIconosContainer.style.transform = 'rotateX(73deg) rotateZ(0deg) translateY(-60px) scale(1.1)';
+          backgroundRoofImage.style.transform = 'scale(1.2)';
+
+          // envía limpio
+          sendToParent({
+            monthlyBillSummer: gastoVerano,
+            monthlyBillWinter: gastoInvierno,
+            panels: 0,
+            annualGenKwh: 0,
+            systemKwP: 0,
+            annualSavingsMXN: 0
+          });
+          return;
+        }
+
+        const numeroDePaneles = Math.ceil(consumoAnualKwh / ENERGIA_PANEL_ANUAL);
+        numeroPanelesDisplay.textContent = numeroDePaneles;
+
+        if (numeroDePaneles >= 37){
+          interactiveView.classList.add('hidden');
+          staticView.classList.remove('hidden');
+
+          let largeSystemScale;
+          if (numeroDePaneles <= 50)      largeSystemScale = 1.2;
+          else if (numeroDePaneles <= 70) largeSystemScale = 1.1;
+          else                             largeSystemScale = 1.0;
+
+          largeSystemImage.style.transform = `scale(${largeSystemScale})`;
+        } else {
+          interactiveView.classList.remove('hidden');
+          staticView.classList.add('hidden');
+          actualizarIconosPaneles(numeroDePaneles);
+
+          let panelScale, bgScale;
+          if      (numeroDePaneles <= 6)  { panelScale = 1.1;  bgScale = 1.2; }
+          else if (numeroDePaneles <= 12) { panelScale = 1.06; bgScale = 1.16; }
+          else if (numeroDePaneles <= 18) { panelScale = 1.02; bgScale = 1.12; }
+          else if (numeroDePaneles <= 24) { panelScale = 0.98; bgScale = 1.08; }
+          else if (numeroDePaneles <= 30) { panelScale = 0.94; bgScale = 1.04; }
+          else                            { panelScale = 0.90; bgScale = 1.00; }
+
+          panelesIconosContainer.style.transform = `rotateX(73deg) rotateZ(0deg) translateY(-60px) scale(${panelScale})`;
+          backgroundRoofImage.style.transform     = `scale(${bgScale})`;
+        }
+
+        const generacionRealAnual = numeroDePaneles * ENERGIA_PANEL_ANUAL;
+        generacionAnualDisplay.textContent = `${generacionRealAnual.toLocaleString('es-MX')} kWh/año`;
+
+        const potenciaPico = (numeroDePaneles * 0.62).toFixed(2);
+        potenciaPicoDisplay.textContent = `${potenciaPico} kWp`;
+
+        const ahorroAnual = (gastoVerano * 6) + (gastoInvierno * 6);
+        ahorroAnualDisplay.textContent = `$${ahorroAnual.toLocaleString('es-MX',{minimumFractionDigits:0,maximumFractionDigits:0})}`;
+
+        /* ====== NUEVO: ENVÍO AL PADRE (GHL) ====== */
+        sendToParent({
+          monthlyBillSummer: gastoVerano,
+          monthlyBillWinter: gastoInvierno,
+          panels: numeroDePaneles,
+          annualGenKwh: generacionRealAnual,
+          systemKwP: Number(potenciaPico),
+          annualSavingsMXN: ahorroAnual
         });
-    </script>
+        /* ========================================= */
+      }
+
+      function setupEventListeners(inputEl, sliderEl){
+        sliderEl.addEventListener('input', e => {
+          inputEl.value = formatToCurrency(e.target.value);
+          recalcularTodo();
+        });
+        inputEl.addEventListener('input', e => {
+          const val = parseFromCurrency(e.target.value);
+          if (val <= Number(sliderEl.max) && val >= Number(sliderEl.min)) sliderEl.value = val;
+          recalcularTodo();
+        });
+        inputEl.addEventListener('blur', e => {
+          let parsed = parseFromCurrency(e.target.value);
+          if (parsed > Number(sliderEl.max)) parsed = Number(sliderEl.max);
+          if (parsed < Number(sliderEl.min)) parsed = Number(sliderEl.min);
+          e.target.value = formatToCurrency(parsed);
+          sliderEl.value = parsed;
+          recalcularTodo();
+        });
+      }
+
+      setupEventListeners(gastoVeranoInput, gastoVeranoSlider);
+      setupEventListeners(gastoInviernoInput, gastoInviernoSlider);
+
+      // cálculo inicial + envío inicial
+      recalcularTodo();
+    });
+  </script>
 </body>
 </html>
+
+
 

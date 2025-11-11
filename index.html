@@ -249,14 +249,12 @@
       /* ====== NUEVO: utilidades para enviar al padre (GHL) ====== */
       const PARENT_ORIGIN = "https://crm.rennergy.mx"; // cambia si usas otro dominio
       let sendTimer = null;
+      // DIAGNÓSTICO: enviar a parent y a top, sin filtrar origin
       function sendToParent(payload){
-        clearTimeout(sendTimer);
-        sendTimer = setTimeout(() => {
-          window.parent.postMessage(
-            { type: "SOLAR_CALC_RESULT", payload },
-            PARENT_ORIGIN // usa "*" solo para pruebas
-          );
-        }, 250);
+        const msg = { type: "SOLAR_CALC_RESULT", payload };
+        try { window.parent.postMessage(msg, "*"); } catch(e){}
+        try { window.top.postMessage(msg, "*"); } catch(e){}
+        try { console.log("[calc] SENT", msg); } catch(e){}
       }
       /* =========================================================== */
 
@@ -377,6 +375,7 @@
   </script>
 </body>
 </html>
+
 
 
 

@@ -286,12 +286,12 @@
 
           // envía limpio
           sendToParent({
-            monthlyBillSummer: gastoVerano,
-            monthlyBillWinter: gastoInvierno,
-            panels: 0,
-            annualGenKwh: 0,
-            systemKwP: 0,
-            annualSavingsMXN: 0
+            custom_calc_bill_summer:  gastoVerano,
+            custom_calc_bill_winter:  gastoInvierno,
+            custom_calc_panels:       0,
+            custom_calc_annual_kwh:   0,
+            custom_calc_kwp:          0,
+            custom_calc_savings_mxn:  0
           });
           return;
         }
@@ -377,6 +377,7 @@
   </script>
 </body>
 </html>
+
 
 
 

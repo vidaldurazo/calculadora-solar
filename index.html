@@ -258,7 +258,14 @@
       }
 
       /* =========================================================== */
-
+      function saveLastCalc(payload) {
+        try {
+          localStorage.setItem('solar_calc_last', JSON.stringify(payload));
+          console.log('[calc] guardado en localStorage', payload);
+        } catch (e) {
+          console.warn('No se pudo guardar en localStorage', e);
+        }
+      }
       function recalcularTodo(){
         const gastoVerano  = parseFromCurrency(gastoVeranoInput.value);
         const gastoInvierno= parseFromCurrency(gastoInviernoInput.value);
@@ -292,6 +299,14 @@
             custom_calc_annual_kwh:   0,
             custom_calc_kwp:          0,
             custom_calc_savings_mxn:  0
+          });
+          saveLastCalc({
+            custom_calc_bill_summer: gastoVerano,
+            custom_calc_bill_winter: gastoInvierno,
+            custom_calc_panels: 0,
+            custom_calc_annual_kwh: 0,
+            custom_calc_kwp: 0,
+            custom_calc_savings_mxn: 0
           });
           return;
         }
@@ -334,6 +349,14 @@
 
         const ahorroAnual = (gastoVerano * 6) + (gastoInvierno * 6);
         ahorroAnualDisplay.textContent = `$${ahorroAnual.toLocaleString('es-MX',{minimumFractionDigits:0,maximumFractionDigits:0})}`;
+        saveLastCalc({
+          custom_calc_bill_summer: gastoVerano,
+          custom_calc_bill_winter: gastoInvierno,
+          custom_calc_panels: numeroDePaneles,
+          custom_calc_annual_kwh: generacionRealAnual,
+          custom_calc_kwp: Number(potenciaPico),
+          custom_calc_savings_mxn: ahorroAnual
+        });
 
         /* ====== NUEVO: ENVÍO AL PADRE (GHL) ====== */
         sendToParent({
@@ -377,6 +400,7 @@
   </script>
 </body>
 </html>
+
 
 
 

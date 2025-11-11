@@ -253,8 +253,17 @@
       const TARGET_ORIGIN = "https://crm.rennergy.mx"; // dominio real de tu landing
       
       function sendToParent(payload) {
-        const msg = { type: "SOLAR_CALC_RESULT", payload };
-        window.top.postMessage(msg, TARGET_ORIGIN);
+        try {
+          // solo intenta si estás realmente embebido (dentro de un iframe)
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage(
+              { type: 'SOLAR_CALC_RESULT', payload },
+              'https://crm.rennergy.mx' // dominio del landing en producción
+            );
+          }
+        } catch (e) {
+          console.warn('[calc] no se pudo enviar al padre:', e);
+        }
       }
 
       /* =========================================================== */
@@ -400,6 +409,7 @@
   </script>
 </body>
 </html>
+
 
 
 

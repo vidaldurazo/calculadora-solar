@@ -337,13 +337,14 @@
 
         /* ====== NUEVO: ENVÍO AL PADRE (GHL) ====== */
         sendToParent({
-          monthlyBillSummer: gastoVerano,
-          monthlyBillWinter: gastoInvierno,
-          panels: numeroDePaneles,
-          annualGenKwh: generacionRealAnual,
-          systemKwP: Number(potenciaPico),
-          annualSavingsMXN: ahorroAnual
+          custom_calc_bill_summer: gastoVerano,
+          custom_calc_bill_winter: gastoInvierno,
+          custom_calc_panels: numeroDePaneles,
+          custom_calc_annual_kwh: generacionRealAnual,
+          custom_calc_kwp: Number(potenciaPico),
+          custom_calc_savings_mxn: ahorroAnual
         });
+
         /* ========================================= */
       }
 
@@ -376,6 +377,7 @@
   </script>
 </body>
 </html>
+
 
 
 

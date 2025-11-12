@@ -172,6 +172,9 @@
       const staticView = document.getElementById('static-view');
       const largeSystemImage = document.getElementById('large-system-image');
 
+      // ===== Marca de interacción real del usuario =====
+      let USER_TOUCHED = false;
+
       const ENERGIA_PANEL_ANUAL = 1100; // kWh anuales por panel
 
       const TARIFAS = {
@@ -250,19 +253,15 @@
         }
       }
 
-      /* ====== NUEVO: utilidades para enviar al padre (GHL) ====== */
-      const PARENT_ORIGIN = "https://crm.rennergy.mx"; // cambia si usas otro dominio
-      let sendTimer = null;
-      // Producción: envía SOLO al dominio de tu landing
+      /* ====== utilidades para enviar al padre (GHL) ====== */
       const TARGET_ORIGIN = "https://crm.rennergy.mx"; // dominio real de tu landing
-      
+
       function sendToParent(payload) {
         try {
-          // solo intenta si estás realmente embebido (dentro de un iframe)
           if (window.parent && window.parent !== window) {
             window.parent.postMessage(
-              { type: 'SOLAR_CALC_RESULT', payload },
-              'https://crm.rennergy.mx' // dominio del landing en producción
+              { type: 'SOLAR_CALC_RESULT', payload, touched: USER_TOUCHED }, // ← incluimos touched
+              TARGET_ORIGIN
             );
           }
         } catch (e) {
@@ -270,7 +269,6 @@
         }
       }
 
-      /* =========================================================== */
       function saveLastCalc(payload) {
         try {
           localStorage.setItem('solar_calc_last', JSON.stringify(payload));
@@ -279,6 +277,7 @@
           console.warn('No se pudo guardar en localStorage', e);
         }
       }
+
       function recalcularTodo(){
         const gastoVerano  = parseFromCurrency(gastoVeranoInput.value);
         const gastoInvierno= parseFromCurrency(gastoInviernoInput.value);
@@ -304,7 +303,6 @@
           backgroundRoofImage.style.transform = 'scale(1.2)';
 
           // envía limpio
-          // envía limpio con las mismas claves que GHL
           sendToParent({
             custom_calc_bill_summer:  gastoVerano,
             custom_calc_bill_winter:  gastoInvierno,
@@ -362,6 +360,7 @@
 
         const ahorroAnual = (gastoVerano * 6) + (gastoInvierno * 6);
         ahorroAnualDisplay.textContent = `$${ahorroAnual.toLocaleString('es-MX',{minimumFractionDigits:0,maximumFractionDigits:0})}`;
+
         saveLastCalc({
           custom_calc_bill_summer: gastoVerano,
           custom_calc_bill_winter: gastoInvierno,
@@ -371,7 +370,7 @@
           custom_calc_savings_mxn: ahorroAnual
         });
 
-        /* ====== NUEVO: ENVÍO AL PADRE (GHL) ====== */
+        // envío al padre con la bandera de interacción
         sendToParent({
           custom_calc_bill_summer: gastoVerano,
           custom_calc_bill_winter: gastoInvierno,
@@ -380,21 +379,22 @@
           custom_calc_kwp: Number(potenciaPico),
           custom_calc_savings_mxn: ahorroAnual
         });
-
-        /* ========================================= */
       }
 
       function setupEventListeners(inputEl, sliderEl){
         sliderEl.addEventListener('input', e => {
+          USER_TOUCHED = true; // ← interacción real
           inputEl.value = formatToCurrency(e.target.value);
           recalcularTodo();
         });
         inputEl.addEventListener('input', e => {
+          USER_TOUCHED = true; // ← interacción real
           const val = parseFromCurrency(e.target.value);
           if (val <= Number(sliderEl.max) && val >= Number(sliderEl.min)) sliderEl.value = val;
           recalcularTodo();
         });
         inputEl.addEventListener('blur', e => {
+          USER_TOUCHED = true; // ← interacción real
           let parsed = parseFromCurrency(e.target.value);
           if (parsed > Number(sliderEl.max)) parsed = Number(sliderEl.max);
           if (parsed < Number(sliderEl.min)) parsed = Number(sliderEl.min);
@@ -407,20 +407,9 @@
       setupEventListeners(gastoVeranoInput, gastoVeranoSlider);
       setupEventListeners(gastoInviernoInput, gastoInviernoSlider);
 
-      // cálculo inicial + envío inicial
+      // cálculo inicial + envío inicial (touched=false)
       recalcularTodo();
     });
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
